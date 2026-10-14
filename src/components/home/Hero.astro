@@ -1,43 +1,55 @@
 ---
-import Button from '../shared/Button.astro';
-import Icon from '../shared/Icon.astro';
-import { Image } from 'astro:assets';
-import heroImage from '../../assets/img/home-page-img-01.jpg';
+import { Image, getImage } from 'astro:assets';
+import heroImage from '../../assets/img/3rdpc_Landing.jpg';
+import mobileHeroImage from '../../assets/img/3rdpc_Landing_mobile.jpg';
+import heroLogo from '../../assets/img/3rdpc_Landing_LOGO_crop.svg?url';
+
+const mobileHero = await getImage({
+  src: mobileHeroImage,
+  widths: [384, 640, mobileHeroImage.width],
+  quality: 75,
+  format: 'webp',
+});
 ---
 
 <section class="relative h-screen w-full flex items-center justify-center overflow-hidden pt-20">
   <!-- Background Image with Overlay -->
   <div class="absolute inset-0 z-0">
     <div class="absolute inset-0 bg-black/40 z-10" />
-    <Image
-      src={heroImage}
-      alt="Minimalist concrete skyscraper reaching towards a clear sky"
-      class="w-full h-full object-cover"
-      loading="eager"
-      fetchpriority="high"
-      widths={[640, 1024, 1280, 1600]}
-      sizes="100vw"
-      quality={75}
-      format="webp"
-    />
+    <picture>
+      <source
+        media="(max-width: 767px)"
+        srcset={mobileHero.srcSet.attribute}
+        sizes="100vw"
+        type="image/webp"
+        width={mobileHeroImage.width}
+        height={mobileHeroImage.height}
+      />
+      <Image
+        src={heroImage}
+        alt="Black-and-white photograph of a person walking past a brick building"
+        class="w-full h-full object-cover"
+        loading="eager"
+        fetchpriority="high"
+        widths={[640, 1024, 1280, 1600]}
+        sizes="100vw"
+        quality={75}
+        format="webp"
+      />
+    </picture>
   </div>
 
   <!-- Content -->
-  <div class="relative z-20 text-center px-6">
-    <h1 class="text-white text-6xl md:text-9xl font-black leading-none tracking-tight mb-6 uppercase">
-      Form &<br />Function
+  <div class="relative z-20 w-full text-center px-6">
+    <h1 class="mx-auto max-w-2xl md:ml-auto md:mr-4 md:max-w-[29.4rem]">
+      <img
+        src={heroLogo}
+        alt="3rd Person Creative"
+        width="463"
+        height="167"
+        class="block w-full h-auto"
+        loading="eager"
+      />
     </h1>
-    <p class="text-white/90 text-lg md:text-xl font-light max-w-2xl mx-auto mb-10 tracking-wide uppercase">
-      Defining modern spaces through precision and soul
-    </p>
-    <div class="flex flex-col md:flex-row gap-4 justify-center items-center">
-      <Button href="/projects" variant="primary" size="lg">View Portfolio</Button>
-      <Button href="/about" variant="secondary" size="lg">Our Story</Button>
-    </div>
-  </div>
-
-  <!-- Scroll Indicator -->
-  <div class="absolute bottom-10 left-1/2 -translate-x-1/2 z-20 animate-bounce">
-    <Icon name="chevron-down" size={32} class="text-white" />
   </div>
 </section>

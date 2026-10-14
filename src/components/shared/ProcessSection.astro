@@ -1,0 +1,80 @@
+---
+import ProcessStep, { type Props as Step } from './ProcessStep.astro';
+
+export interface Props {
+  eyebrow: string;
+  headline: string;
+  steps: Step[];
+  id?: string;
+}
+
+const { eyebrow, headline, steps, id } = Astro.props;
+---
+
+<section class="process-section" id={id} aria-label={headline}>
+  <div class="process-inner">
+    <p class="process-eyebrow">{eyebrow}</p>
+    <h2>{headline}</h2>
+    <ol class="process-grid">
+      {steps.map(step => <ProcessStep {...step} />)}
+    </ol>
+  </div>
+</section>
+
+<style>
+  .process-section {
+    background: #f4f3ef;
+    color: #20211e;
+    font-family: 'DM Sans', Arial, sans-serif;
+    scroll-margin-top: 5rem;
+  }
+
+  .process-inner {
+    width: min(1380px, 91%);
+    margin-inline: auto;
+    padding-block: 60px;
+    border-bottom: 1px solid #d4d5cd;
+  }
+
+  .process-eyebrow {
+    margin: 0;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1.5;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+  }
+
+  .process-section h2 {
+    margin: 26px 0 0;
+    font: 700 clamp(30px, 3.7vw, 54px)/1.12 'Manrope', sans-serif;
+    letter-spacing: -0.065em;
+    white-space: pre-line;
+    overflow-wrap: break-word;
+  }
+
+  .process-grid {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 18px;
+    margin: 34px 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  @media (max-width: 1023px) {
+    .process-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 28px;
+    }
+  }
+
+  @media (max-width: 700px) {
+    .process-inner { padding-block: 55px; }
+  }
+
+  @media (max-width: 450px) {
+    .process-inner { width: calc(100% - 40px); }
+    .process-grid { grid-template-columns: minmax(0, 1fr); }
+  }
+</style>

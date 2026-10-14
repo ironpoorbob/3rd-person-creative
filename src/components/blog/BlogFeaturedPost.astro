@@ -1,4 +1,5 @@
 ---
+import { withBase } from '../../utils/paths';
 // src/components/blog/BlogFeaturedPost.astro
 import type { CollectionEntry } from 'astro:content';
 import { getReadingTime } from '../../utils/blog';
@@ -55,7 +56,7 @@ const readingTime = getReadingTime(post.body || '');
           <span>{readingTime} Min Read</span>
         </div>
         <a 
-          href={`/blog/${post.id}`}
+          href={withBase(`/blog/${post.id}`)}
           class="inline-flex items-center gap-4 text-sm font-bold uppercase tracking-wider text-primary hover:gap-6 transition-all duration-300 group"
         >
           <span>Read Full Story</span>

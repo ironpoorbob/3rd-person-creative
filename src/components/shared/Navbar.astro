@@ -1,0 +1,72 @@
+---
+import { withBase } from '../../utils/paths';
+import Container from './Container.astro';
+import Icon from './Icon.astro';
+
+const navLinks = [
+  { label: 'Approach', href: withBase('/#approach') },
+  { label: 'Services', href: withBase('/#services') },
+  { label: 'People', href: withBase('/#people') },
+  { label: 'Instagram', href: 'https://www.instagram.com/3rd_person_creative/', external: true },
+  { label: "Let's talk", href: "mailto:hello@3rdpersoncreative.com?subject=Let's%20talk" },
+];
+
+---
+
+<header class="fixed top-0 w-full z-50 bg-white/90 dark:bg-background-dark/90 backdrop-blur-md border-b border-slate-100 dark:border-slate-800">
+  <Container class="h-20 flex items-center justify-between">
+    <!-- Logo -->
+    <a href={withBase('/')} class="wordmark dark:text-slate-100" aria-label="3rd Person Creative home">
+      3rd person <span>creative.</span>
+    </a>
+
+    <!-- Desktop Navigation -->
+    <nav class="desktop-nav hidden lg:flex text-[#20211e] dark:text-slate-100" aria-label="Primary navigation">
+      {navLinks.map(({ label, href, external }) => (
+        <a class="inline-flex items-center" href={href} target={external ? '_blank' : undefined} rel={external ? 'noopener noreferrer' : undefined}>
+          <span>{label}</span>
+          <svg width="14" height="14" style="flex: 0 0 14px; width: 14px; height: 14px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="0.8" aria-hidden="true" focusable="false">
+            <path d="M4 20 20 4M15 4h5v5" />
+          </svg>
+        </a>
+      ))}
+    </nav>
+
+    <!-- Mobile menu button -->
+    <button class="lg:hidden p-2 text-slate-600 dark:text-slate-400" aria-label="Open menu">
+      <Icon name="menu" size={24} />
+    </button>
+  </Container>
+</header>
+
+<style>
+  .desktop-nav {
+    align-items: center;
+    gap: 0;
+    font: 400 16px/1.5 'DM Sans', Arial, sans-serif;
+    letter-spacing: normal;
+    white-space: nowrap;
+  }
+
+  .desktop-nav a:hover {
+    text-decoration: underline;
+  }
+
+  .wordmark {
+    color: #20211e;
+    font: 800 20px/1 'Manrope', sans-serif;
+    letter-spacing: -0.07em;
+    white-space: nowrap;
+  }
+
+  .wordmark span {
+    font-weight: 400;
+    letter-spacing: -0.045em;
+  }
+
+  @media (max-width: 450px) {
+    .wordmark {
+      font-size: 18px;
+    }
+  }
+</style>
