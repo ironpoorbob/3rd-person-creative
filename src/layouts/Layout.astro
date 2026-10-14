@@ -1,4 +1,7 @@
 ---
+import { withBase } from '../utils/paths';
+import Favicons from '../components/shared/Favicons.astro';
+import BrandFonts from '../components/shared/BrandFonts.astro';
 import '../styles/global.css';
 
 export interface Props {
@@ -7,6 +10,22 @@ export interface Props {
 }
 
 const { title, description = "Architectural studio specializing in minimalist design" } = Astro.props;
+
+const fonts = [400, 500, 600, 700, 900].map(weight => ({
+  weight,
+  url: withBase(`/fonts/inter-latin-${weight}-normal.woff2`),
+}));
+
+// Public font URLs are final deployment URLs, not assets for Vite to resolve.
+const fontFaces = fonts.map(({ weight, url }) => `
+  @font-face {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: ${weight};
+    font-display: swap;
+    src: url(${JSON.stringify(url)}) format('woff2');
+  }
+`).join('');
 ---
 
 <!DOCTYPE html>
@@ -16,14 +35,15 @@ const { title, description = "Architectural studio specializing in minimalist de
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{title}</title>
     <meta name="description" content={description} />
+    <Favicons />
+    <BrandFonts />
     
-    <!-- Font preloads -->
-    <link rel="preload" href="/fonts/inter-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin="anonymous">
-    <link rel="preload" href="/fonts/inter-latin-500-normal.woff2" as="font" type="font/woff2" crossorigin="anonymous">
-    <link rel="preload" href="/fonts/inter-latin-600-normal.woff2" as="font" type="font/woff2" crossorigin="anonymous">
-    <link rel="preload" href="/fonts/inter-latin-700-normal.woff2" as="font" type="font/woff2" crossorigin="anonymous">
-    <link rel="preload" href="/fonts/inter-latin-900-normal.woff2" as="font" type="font/woff2" crossorigin="anonymous">
-    
+    <!-- Font preloads and declarations share the same base-aware URLs. -->
+    {fonts.map(({ url }) => (
+      <link rel="preload" href={url} as="font" type="font/woff2" crossorigin="anonymous" />
+    ))}
+    <style is:inline set:html={fontFaces} />
+
     <!-- Inline critical CSS (minimal) -->
     <style>
       /* System font fallback */
@@ -31,42 +51,6 @@ const { title, description = "Architectural studio specializing in minimalist de
         font-family: Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
       }
       
-      /* Font faces */
-      @font-face {
-        font-family: 'Inter';
-        font-style: normal;
-        font-weight: 400;
-        font-display: swap;
-        src: url('/fonts/inter-latin-400-normal.woff2') format('woff2');
-      }
-      @font-face {
-        font-family: 'Inter';
-        font-style: normal;
-        font-weight: 500;
-        font-display: swap;
-        src: url('/fonts/inter-latin-500-normal.woff2') format('woff2');
-      }
-      @font-face {
-        font-family: 'Inter';
-        font-style: normal;
-        font-weight: 600;
-        font-display: swap;
-        src: url('/fonts/inter-latin-600-normal.woff2') format('woff2');
-      }
-      @font-face {
-        font-family: 'Inter';
-        font-style: normal;
-        font-weight: 700;
-        font-display: swap;
-        src: url('/fonts/inter-latin-700-normal.woff2') format('woff2');
-      }
-      @font-face {
-        font-family: 'Inter';
-        font-style: normal;
-        font-weight: 900;
-        font-display: swap;
-        src: url('/fonts/inter-latin-900-normal.woff2') format('woff2');
-      }
     </style>
   </head>
   <body class="bg-white dark:bg-background-dark text-slate-900 dark:text-slate-100 font-display transition-colors duration-300">

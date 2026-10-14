@@ -1,0 +1,19 @@
+---
+import { withBase } from '../../utils/paths';
+
+const fonts = [
+  { family: 'Manrope', file: 'manrope', weights: [400, 700, 800] },
+  { family: 'DM Sans', file: 'dm-sans', weights: [400, 700] },
+];
+const fontFaces = fonts.flatMap(({ family, file, weights }) => weights.map(weight => `
+  @font-face {
+    font-family: '${family}';
+    font-style: normal;
+    font-weight: ${weight};
+    font-display: swap;
+    src: url(${JSON.stringify(withBase(`/fonts/${file}-${weight}-normal.ttf`))}) format('truetype');
+  }
+`)).join('');
+---
+
+<style is:inline set:html={fontFaces} />

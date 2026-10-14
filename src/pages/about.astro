@@ -1,22 +1,29 @@
 ---
+import { getEntry } from 'astro:content';
 import Layout from '../layouts/Layout.astro';
-import Navbar from '../components/home/Navbar.astro';
+import Navbar from '../components/shared/Navbar.astro';
 import AboutHero from '../components/about/AboutHero.astro';
 import StatsRibbon from '../components/about/StatsRibbon.astro';
 import PhilosophyHistory from '../components/about/PhilosophyHistory.astro';
 import TeamSection from '../components/about/TeamSection.astro';
-import AboutCTA from '../components/about/AboutCTA.astro';
+import Callout from '../components/shared/Callout.astro';
+import ProcessSection from '../components/shared/ProcessSection.astro';
 import Footer from '../components/shared/Footer.astro';
+
+const about = await getEntry('pages', 'about');
+if (!about) throw new Error('Missing About page content: src/content/pages/about.md');
+const { title, process, callout } = about.data;
 ---
 
-<Layout title="About Us | Studio Alpha Architecture">
+<Layout title={title}>
   <Navbar />
   <main>
     <AboutHero />
     <StatsRibbon />
     <PhilosophyHistory />
     <TeamSection />
-    <AboutCTA />
+    {process && <ProcessSection {...process} />}
+    {callout && <Callout {...callout} />}
   </main>
   <Footer />
 </Layout>
