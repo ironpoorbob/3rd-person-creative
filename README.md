@@ -1,3 +1,54 @@
+# 3rd Person Creative
+
+A portfolio website for **3rd Person Creative**—a place to showcase the group's work, introduce the people behind it, and help prospective clients get in touch.
+
+The site is being adapted from the **3dinterior Astro theme** to reflect 3rd Person Creative's identity and the designer's evolving direction. The original theme provides the foundation; its layouts, typography, and components are being updated to suit the new design.
+
+## Current development
+
+- A custom homepage hero with separate desktop and mobile images and an SVG logo.
+- Shared navigation featuring the 3rd Person Creative wordmark and contact links.
+- An About page being developed from the designer's mock, with reusable, responsive callout and process components.
+- Page content stored in `src/content/pages/`, keeping copy and process steps separate from component layout and styling.
+- Support for deployment at the site root or under a configurable subfolder.
+
+Local designer references are kept in `design-reference/`, which is excluded from Git.
+
+## Development and builds
+
+Use Node.js **22.12 or newer**.
+
+```bash
+npm install
+npm run dev
+```
+
+Build for the site root:
+
+```bash
+npm run build
+```
+
+Build for the current preview location, `https://www.bobconlon.com/3rd-person/`:
+
+```bash
+npm run build -- --base=/3rd-person/
+```
+
+Upload the contents of `dist/client/3rd-person/` into the host's `/3rd-person/` folder. Root builds output the site to `dist/client/`.
+
+<br />
+
+---
+
+## Original theme documentation
+
+The documentation below describes the original **3dinterior** theme, including its features, customization guidance, credits, and license. Some descriptions reflect the starting theme rather than the current 3rd Person Creative site.
+
+---
+
+<br />
+
 # 🌆 3dinterior
 
 <img src="./public/img/lighthouse-v-score.png" align="right"
