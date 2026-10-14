@@ -42,6 +42,43 @@ pnpm dev
 
 Visit `localhost:4321` - that's it! 🧑‍🚀
 
+## Building for a subfolder
+
+Use Node.js 22.12 or newer. The build defaults to the site root:
+
+```bash
+npm run build
+```
+
+To serve the site at `https://example.com/designer-preview/`, pass Astro's base flag:
+
+```bash
+npm run build -- --base=/designer-preview/
+```
+
+With the current Cloudflare adapter, the static files are written to
+`dist/client/designer-preview/`. Copy that directory's contents into the
+`designer-preview` folder on your host. Root builds write the site to `dist/client/`.
+The base flag controls the URL path, not the domain.
+
+For local development with the same path:
+
+```bash
+npm run dev -- --base=/designer-preview/
+```
+
+Open `/designer-preview/` on the local dev server. Omit `--base` to return to `/`.
+
+When adding pages, use `withBase('/about')` from `src/utils/paths.ts` for internal
+links and public asset URLs. Shared `Button` and `NavLink` components apply it
+automatically, so pass them unprefixed paths. Import images from `src/assets/`; Astro handles their base path,
+along with bundled CSS, scripts, and CSS `url()` references. External URLs and
+fragment links such as `#contact` do not need a base path.
+
+After either build, check its generated URLs with
+`node scripts/check-build-paths.mjs` (root) or
+`node scripts/check-build-paths.mjs /designer-preview/` (subfolder).
+
 ---
 
 ## 🎨 Customization

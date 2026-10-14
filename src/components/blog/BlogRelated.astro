@@ -1,4 +1,5 @@
 ---
+import { withBase } from '../../utils/paths';
 // src/components/blog/BlogRelated.astro
 import type { CollectionEntry } from 'astro:content';
 import BlogCard from './BlogCard.astro';
@@ -28,7 +29,7 @@ const relatedPosts = getRelatedPosts(currentPost, allPosts, limit);
         </h2>
       </div>
       <a
-        href="/blog"
+        href={withBase('/blog')}
         class="text-xs font-bold uppercase tracking-[0.2em] border-b-2 border-slate-900 dark:border-white pb-2 hover:text-primary hover:border-primary transition-all"
       >
         View All Posts

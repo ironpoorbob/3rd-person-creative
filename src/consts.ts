@@ -1,4 +1,5 @@
 // src/consts.ts
+import { withBase } from './utils/paths';
 
 // Site metadata
 export const SITE_TITLE = 'Studio Alpha';
@@ -8,7 +9,7 @@ export const SITE_DESCRIPTION = 'Architecture studio specializing in minimalist 
 export const BLOG_TITLE = 'Studio Alpha Blog';
 export const BLOG_DESCRIPTION = 'Insights on minimalism, architecture, and essential design.';
 export const POSTS_PER_PAGE = 6;
-export const BLOG_URL = '/blog';
+export const BLOG_URL = withBase('/blog');
 
 // Author defaults
 export const DEFAULT_AUTHOR = 'Studio Alpha';
@@ -32,4 +33,4 @@ export const BLOG_SOCIAL_SHARE = {
   email: true
 } as const;
 
-export const DEFAULT_BLOG_IMAGE = '/favicon.svg';
+export const DEFAULT_BLOG_IMAGE = withBase('/favicon.svg');
