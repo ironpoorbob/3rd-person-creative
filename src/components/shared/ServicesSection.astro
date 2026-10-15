@@ -1,0 +1,58 @@
+---
+import type { SectionColorProps } from '../../types/section';
+import ServiceColumn, { type Props as Service } from './ServiceColumn.astro';
+
+export interface Props extends SectionColorProps {
+  eyebrow: string;
+  headline: string;
+  subsections: Service[];
+  id?: string;
+}
+
+const { eyebrow, headline, subsections, id, colorMode = 'light' } = Astro.props;
+---
+
+<section class="services-section brand-section" data-color-mode={colorMode} id={id} aria-label={headline}>
+  <div class="site-content services-inner">
+    <p class="services-eyebrow">{eyebrow}</p>
+    <h2>{headline}</h2>
+    <div class="services-grid">
+      {subsections.map(service => <ServiceColumn {...service} />)}
+    </div>
+  </div>
+</section>
+
+<style>
+  .services-section {
+    font-family: var(--font-body);
+    scroll-margin-top: 5rem;
+  }
+  .services-inner { padding-block: 60px; border-bottom: 1px solid var(--section-line); }
+  .services-eyebrow {
+    margin: 0;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1.5;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+  }
+  h2 {
+    margin: 26px 0 0;
+    font: 700 clamp(30px, 3.7vw, 54px)/1.12 var(--font-heading);
+    letter-spacing: -.065em;
+    white-space: pre-line;
+    overflow-wrap: break-word;
+  }
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8vw;
+    margin-top: 65px;
+  }
+  @media (max-width: 800px) {
+    .services-grid { grid-template-columns: minmax(0, 1fr); gap: 45px; margin-top: 40px; }
+  }
+  @media (max-width: 700px) {
+    .services-inner { padding-block: 55px; }
+  }
+</style>
