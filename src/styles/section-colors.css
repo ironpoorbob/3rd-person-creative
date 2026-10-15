@@ -1,0 +1,20 @@
+/* Explicit section palettes, independent of the site's light/dark theme. */
+.brand-section {
+  --section-background: var(--color-brand-paper);
+  --section-text: var(--color-brand-ink);
+  --section-muted: var(--color-brand-muted);
+  --section-line: var(--color-brand-line);
+}
+
+.brand-section[data-color-mode='orange'] {
+  --section-background: var(--color-brand-accent);
+  --section-muted: var(--color-brand-ink);
+  --section-line: color-mix(in srgb, var(--color-brand-ink) 25%, var(--color-brand-accent));
+}
+
+.brand-section[data-color-mode='dark'] {
+  --section-background: var(--color-brand-ink);
+  --section-text: var(--color-brand-paper);
+  --section-muted: var(--color-brand-line);
+  --section-line: color-mix(in srgb, var(--color-brand-paper) 30%, var(--color-brand-ink));
+}

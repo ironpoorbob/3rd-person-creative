@@ -4,27 +4,28 @@ import ProcessStep, { type Props as Step } from './ProcessStep.astro';
 export interface Props {
   eyebrow: string;
   headline: string;
-  steps: Step[];
+  subsections: Step[];
   id?: string;
+  colorMode?: 'orange' | 'light' | 'dark';
 }
 
-const { eyebrow, headline, steps, id } = Astro.props;
+const { eyebrow, headline, subsections, id, colorMode = 'light' } = Astro.props;
 ---
 
-<section class="process-section" id={id} aria-label={headline}>
+<section class="process-section brand-section" data-color-mode={colorMode} id={id} aria-label={headline}>
   <div class="process-inner">
     <p class="process-eyebrow">{eyebrow}</p>
     <h2>{headline}</h2>
     <ol class="process-grid">
-      {steps.map(step => <ProcessStep {...step} />)}
+      {subsections.map(step => <ProcessStep {...step} />)}
     </ol>
   </div>
 </section>
 
 <style>
   .process-section {
-    background: var(--color-brand-paper);
-    color: var(--color-brand-ink);
+    background: var(--section-background);
+    color: var(--section-text);
     font-family: var(--font-body);
     scroll-margin-top: 5rem;
   }
@@ -33,7 +34,7 @@ const { eyebrow, headline, steps, id } = Astro.props;
     width: min(1380px, 91%);
     margin-inline: auto;
     padding-block: 60px;
-    border-bottom: 1px solid var(--color-brand-line);
+    border-bottom: 1px solid var(--section-line);
   }
 
   .process-eyebrow {

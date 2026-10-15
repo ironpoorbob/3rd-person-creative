@@ -7,12 +7,13 @@ sections:
   - type: team
   - type: process
     props:
+      colorMode: light
       id: "process"
       eyebrow: "02 / Our process"
       headline: |-
         Listen. Discover.
         Make it matter.
-      steps:
+      subsections:
         - number: "01"
           headline: "Listen."
           subheadline: "Understand the business, the people, and the possibilities."
@@ -30,6 +31,7 @@ sections:
           subheadline: "Put the brand to work in the real world."
   - type: callout
     props:
+      colorMode: orange
       eyebrow: "Have something in mind?"
       headline: "Your Story, Our Mission."
       subheadline: "New idea. Growing business. Fresh perspective. Let's talk."
