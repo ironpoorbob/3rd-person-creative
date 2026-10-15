@@ -14,6 +14,14 @@ The site is being adapted from the **3dinterior Astro theme** to reflect 3rd Per
 
 Local designer references are kept in `design-reference/`, which is excluded from Git.
 
+## Editing About page sections
+
+Edit `src/content/pages/about.md`. Its `sections` array controls what appears on the page and in what order. Each entry has a `type`: `aboutHero`, `statsRibbon`, `philosophyHistory`, `team`, `process`, or `callout`.
+
+Move an entire entry to reorder it, remove it to hide that section, or add another entry to repeat a component with different content. The `process` and `callout` entries contain their own copy; the original theme sections still keep their copy inside their components. An optional `id` on a process or callout section supplies an HTML anchor, not the component type. Use unique IDs when repeating sections.
+
+Supported types and required fields are validated in `src/content.config.ts`. New component types must also be registered in `src/pages/about.astro` before they can be used in content.
+
 ## Development and builds
 
 Use Node.js **22.12 or newer**.

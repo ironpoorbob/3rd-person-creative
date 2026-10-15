@@ -21,7 +21,7 @@ const navLinks = [
     </a>
 
     <!-- Desktop Navigation -->
-    <nav class="desktop-nav hidden lg:flex text-[#20211e] dark:text-slate-100" aria-label="Primary navigation">
+    <nav class="desktop-nav hidden lg:flex text-brand-ink dark:text-slate-100" aria-label="Primary navigation">
       {navLinks.map(({ label, href, external }) => (
         <a class="inline-flex items-center" href={href} target={external ? '_blank' : undefined} rel={external ? 'noopener noreferrer' : undefined}>
           <span>{label}</span>
@@ -43,7 +43,7 @@ const navLinks = [
   .desktop-nav {
     align-items: center;
     gap: 0;
-    font: 400 16px/1.5 'DM Sans', Arial, sans-serif;
+    font: 400 16px/1.5 var(--font-body);
     letter-spacing: normal;
     white-space: nowrap;
   }
@@ -53,8 +53,8 @@ const navLinks = [
   }
 
   .wordmark {
-    color: #20211e;
-    font: 800 20px/1 'Manrope', sans-serif;
+    color: var(--color-brand-ink);
+    font: 800 20px/1 var(--font-heading);
     letter-spacing: -0.07em;
     white-space: nowrap;
   }

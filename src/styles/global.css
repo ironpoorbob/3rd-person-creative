@@ -3,6 +3,15 @@
 
 /* Custom theme configuration */
 @theme {
+  /* 3rd Person Creative: shared CSS variables and Tailwind utilities. */
+  --color-brand-ink: #20211e;
+  --color-brand-paper: #f4f3ef;
+  --color-brand-accent: #ff9f50;
+  --color-brand-muted: #686963;
+  --color-brand-line: #d4d5cd;
+  --font-heading: 'Manrope', sans-serif;
+  --font-body: 'DM Sans', Arial, sans-serif;
+
   /* Colors */
   --color-primary: #1754cf;
   --color-background-light: #f6f6f8;

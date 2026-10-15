@@ -17,29 +17,29 @@ const { number, headline, subheadline } = Astro.props;
 <style>
   .process-step {
     min-width: 0;
-    border-top: 1px solid #20211e;
+    border-top: 1px solid var(--color-brand-ink);
     padding-top: 18px;
-    font-family: 'DM Sans', Arial, sans-serif;
+    font-family: var(--font-body);
     overflow-wrap: break-word;
   }
 
   .step-number {
     margin: 0;
-    color: #686963;
+    color: var(--color-brand-muted);
     font-size: 12px;
     line-height: 1.5;
   }
 
   .process-step h3 {
     margin: 40px 0 12px;
-    color: #20211e;
-    font: 700 clamp(20px, 2vw, 29px)/1.15 'Manrope', sans-serif;
+    color: var(--color-brand-ink);
+    font: 700 clamp(20px, 2vw, 29px)/1.15 var(--font-heading);
     letter-spacing: -0.05em;
   }
 
   .step-description {
     margin: 0;
-    color: #686963;
+    color: var(--color-brand-muted);
     font-size: 14px;
     line-height: 1.5;
   }

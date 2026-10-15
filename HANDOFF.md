@@ -2,6 +2,12 @@
 
 ## Snapshot
 
+About now renders an ordered `sections` array from `src/content/pages/about.md`. Each entry's `type` selects a component in the page registry. All six current section types are validated by a discriminated union in `src/content.config.ts`; section order and inclusion are controlled by data. The old theme sections are registered but retain hardcoded copy internally. The initial order and rendered content were preserved.
+
+Verification for the sections migration: subfolder build and URL checks passed. The existing dev process initially retained the old content shape (`sections` was undefined); a forced dev restart loaded the new schema. The refreshed About route returned 200 with all six sections in order and five process steps. The replacement dev process runs in the background; inspect current Astro status rather than relying on a saved PID.
+
+Latest update: the user reports the original PR merged, local rebased, and dev server running. Shared brand color/font tokens are now defined in `src/styles/global.css` and used by Navbar, Callout, ProcessSection, and ProcessStep. Existing theme colors and Inter typography remain for sections not yet redesigned. WOFF2 migration is deferred until requested; the user agreed to revisit it after the PR merge.
+
 Recorded after commit `a54dfba` (`Updates readme for 3rd Person Creative notes`). The working tree was clean before adding this handoff and `AGENTS.md`. Recheck Git for subsequent work; these notes do not establish the current PR, deployment, or server status.
 
 The user is adapting an Astro portfolio theme with a designer. The site should showcase the group's work and let visitors get in touch. The user has grouped the work into commits for one PR and manages staging/committing themselves.
@@ -36,7 +42,7 @@ The latest arrow refinement uses 14px SVG boxes, a 0.8 stroke, and small arrowhe
 - `src/components/shared/ProcessStep.astro`: top border, number, headline, and subheadline. Uses an ordered list item within the process section.
 - All copy lives in `src/content/pages/about.md`, validated by the `pages` collection in `src/content.config.ts`.
 - The process headline uses a YAML multiline string; `white-space: pre-line` preserves its intended break without storing HTML.
-- Process grid: five columns from 1024px, two from 451–1023px, one at 450px and below. Add/reorder items in `process.steps` rather than hardcoding markup.
+- Process grid: five columns from 1024px, two from 451–1023px, one at 450px and below. Add/reorder items in the `steps` array of a `type: process` section rather than hardcoding markup.
 - The old hardcoded `AboutCTA.astro` wrapper was deleted. About renders the reusable components directly from content.
 - `BrandFonts.astro` centralizes local Manrope and DM Sans declarations in both page head layouts. Font licenses are stored alongside the font files.
 

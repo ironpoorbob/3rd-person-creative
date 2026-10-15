@@ -27,24 +27,32 @@ const pages = defineCollection({
   }),
   schema: z.object({
     title: z.string().min(1),
-    process: z.object({
-      eyebrow: z.string().min(1),
-      headline: z.string().min(1),
-      id: z.string().optional(),
-      steps: z.array(z.object({
-        number: z.string().min(1),
+    sections: z.array(z.discriminatedUnion('type', [
+      z.object({ type: z.literal('aboutHero') }).strict(),
+      z.object({ type: z.literal('statsRibbon') }).strict(),
+      z.object({ type: z.literal('philosophyHistory') }).strict(),
+      z.object({ type: z.literal('team') }).strict(),
+      z.object({
+        type: z.literal('process'),
+        eyebrow: z.string().min(1),
         headline: z.string().min(1),
-        subheadline: z.string().min(1),
-      })).min(1),
-    }).optional(),
-    callout: z.object({
-      eyebrow: z.string().optional(),
-      headline: z.string().min(1),
-      subheadline: z.string().optional(),
-      linkText: z.string().min(1),
-      href: z.string().min(1),
-      id: z.string().optional(),
-    }).optional(),
+        id: z.string().optional(),
+        steps: z.array(z.object({
+          number: z.string().min(1),
+          headline: z.string().min(1),
+          subheadline: z.string().min(1),
+        }).strict()).min(1),
+      }).strict(),
+      z.object({
+        type: z.literal('callout'),
+        eyebrow: z.string().optional(),
+        headline: z.string().min(1),
+        subheadline: z.string().optional(),
+        linkText: z.string().min(1),
+        href: z.string().min(1),
+        id: z.string().optional(),
+      }).strict(),
+    ])),
   }),
 });
 

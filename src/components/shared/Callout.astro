@@ -29,10 +29,10 @@ const { eyebrow, headline, subheadline, linkText, href, id } = Astro.props;
 
 <style>
   .callout {
-    background: #ff9f50;
-    color: #20211e;
+    background: var(--color-brand-accent);
+    color: var(--color-brand-ink);
     padding-block: 110px;
-    font-family: 'DM Sans', Arial, sans-serif;
+    font-family: var(--font-body);
     scroll-margin-top: 5rem;
   }
 
@@ -53,7 +53,7 @@ const { eyebrow, headline, subheadline, linkText, href, id } = Astro.props;
   .callout h2 {
     max-width: 1000px;
     margin: 28px 0 35px;
-    font: 700 clamp(32px, 4.5vw, 70px)/1 'Manrope', sans-serif;
+    font: 700 clamp(32px, 4.5vw, 70px)/1 var(--font-heading);
     letter-spacing: -0.09em;
     overflow-wrap: break-word;
   }

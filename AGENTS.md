@@ -19,10 +19,11 @@ This is a portfolio and contact site for **3rd Person Creative**, adapted from t
 
 - Shared components live in `src/components/shared/`. The navbar is `Navbar.astro` there, not under `home/`.
 - Keep page copy in content entries and presentation in components. The `pages` collection in `src/content.config.ts` validates `src/content/pages/*.md`.
-- `src/content/pages/about.md` supplies the callout and process data. `src/pages/about.astro` loads it with `getEntry('pages', 'about')` and passes section props to the components.
+- `src/content/pages/about.md` supplies an ordered `sections` array. `src/pages/about.astro` loads it with `getEntry('pages', 'about')` and maps each `type` to a registered component, passing the remaining fields as props. Supported types: `aboutHero`, `statsRibbon`, `philosophyHistory`, `team`, `process`, and `callout`. Add new types to both the discriminated-union schema and the registry. Keep `id` separate from `type`; it identifies an HTML anchor.
 - Render repeating items from arrays through child components, as `ProcessSection.astro` does with `ProcessStep.astro`.
 - New branded sections use Manrope for headings and DM Sans for body text. `BrandFonts.astro`, included by both head layouts, declares local fonts in `public/fonts/`. Existing theme sections still use Inter; do not migrate them wholesale without a request.
 - Designer colors: ink `#20211e`, paper `#f4f3ef`, accent `#ff9f50`, muted text `#686963`, divider `#d4d5cd`.
+- Shared brand tokens live in the `@theme` block in `src/styles/global.css`: `--color-brand-{ink,paper,accent,muted,line}`, `--font-heading`, and `--font-body`. Use `var(...)` in component CSS or Tailwind utilities such as `text-brand-ink`, `bg-brand-accent`, and `font-heading`. Keep font family names literal in `@font-face` declarations; those register the fonts rather than choose a styling token.
 - Use explicit SVG width/height and constrained flex sizing for arrows. Earlier arrows became oversized when their CSS did not apply. The current nav has one subtle arrow per link, mixed-case text, tight spacing, and no pill button.
 - `design-reference/` is ignored by Git. It may be absent on a fresh checkout; ask for the relevant reference if needed rather than inventing its contents.
 
