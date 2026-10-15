@@ -8,12 +8,13 @@ export interface Props {
   linkText: string;
   href: string;
   id?: string;
+  colorMode?: 'orange' | 'light' | 'dark';
 }
 
-const { eyebrow, headline, subheadline, linkText, href, id } = Astro.props;
+const { eyebrow, headline, subheadline, linkText, href, id, colorMode = 'orange' } = Astro.props;
 ---
 
-<section class="callout" id={id} aria-label={headline}>
+<section class="callout brand-section" data-color-mode={colorMode} id={id} aria-label={headline}>
   <div class="callout-inner">
     {eyebrow && <p class="callout-eyebrow">{eyebrow}</p>}
     <h2>{headline}</h2>
@@ -29,8 +30,8 @@ const { eyebrow, headline, subheadline, linkText, href, id } = Astro.props;
 
 <style>
   .callout {
-    background: var(--color-brand-accent);
-    color: var(--color-brand-ink);
+    background: var(--section-background);
+    color: var(--section-text);
     padding-block: 110px;
     font-family: var(--font-body);
     scroll-margin-top: 5rem;

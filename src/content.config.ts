@@ -35,10 +35,11 @@ const pages = defineCollection({
       z.object({
         type: z.literal('process'),
         props: z.object({
+          colorMode: z.enum(['orange', 'light', 'dark']).optional(),
           eyebrow: z.string().min(1),
           headline: z.string().min(1),
           id: z.string().optional(),
-          steps: z.array(z.object({
+          subsections: z.array(z.object({
             number: z.string().min(1),
             headline: z.string().min(1),
             subheadline: z.string().min(1),
@@ -48,6 +49,7 @@ const pages = defineCollection({
       z.object({
         type: z.literal('callout'),
         props: z.object({
+          colorMode: z.enum(['orange', 'light', 'dark']).optional(),
           eyebrow: z.string().optional(),
           headline: z.string().min(1),
           subheadline: z.string().optional(),

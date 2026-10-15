@@ -32,9 +32,17 @@ sections:
       href: "mailto:hello@3rdpersoncreative.com"
 ```
 
-Theme sections without editable content can omit `props`.
+Theme sections without editable content can omit `props`. For a process component, its numbered items are in `props.subsections`; this is separate from the top-level `sections` array that orders the page components.
 
-Supported types and required fields are validated in `src/content.config.ts`. New component types must also be registered in `src/pages/about.astro` before they can be used in content.
+Callout and process sections accept an optional `colorMode` inside `props`:
+
+- `orange`: brand orange background with dark text.
+- `light`: brand paper background with dark text.
+- `dark`: brand ink background with light text.
+
+Callout defaults to `orange`; process defaults to `light`. For example, add `colorMode: dark` alongside `headline` inside a section's `props`, or pass `colorMode="dark"` when using the component directly. The schema validates these three values. Palettes live in `src/styles/section-colors.css` and use the shared brand tokens; text, rules, arrows, and link focus outlines adapt together.
+
+Supported types and required fields are validated in `src/content.config.ts`. New component types must also be handled in the renderer switch in `src/pages/about.astro` before they can be used in content.
 
 ## Development and builds
 

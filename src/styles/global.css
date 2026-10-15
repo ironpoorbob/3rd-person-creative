@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import "./section-colors.css";
 @plugin "@tailwindcss/typography";
 
 /* Custom theme configuration */

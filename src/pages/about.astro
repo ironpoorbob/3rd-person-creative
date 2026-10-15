@@ -14,23 +14,31 @@ const about = await getEntry('pages', 'about');
 if (!about) throw new Error('Missing About page content: src/content/pages/about.md');
 const { title, sections } = about.data;
 
-// Only registered, schema-validated section types can be rendered from content.
-const sectionComponents = {
-  aboutHero: AboutHero,
-  statsRibbon: StatsRibbon,
-  philosophyHistory: PhilosophyHistory,
-  team: TeamSection,
-  process: ProcessSection,
-  callout: Callout,
-};
 ---
 
 <Layout title={title}>
   <Navbar />
   <main>
-    {sections.map(({ type, props }) => {
-      const Component = sectionComponents[type];
-      return <Component {...props} />;
+    {sections.map(section => {
+      // Narrow the whole section so its type and props stay linked.
+      switch (section.type) {
+        case 'aboutHero':
+          return <AboutHero {...section.props} />;
+        case 'statsRibbon':
+          return <StatsRibbon {...section.props} />;
+        case 'philosophyHistory':
+          return <PhilosophyHistory {...section.props} />;
+        case 'team':
+          return <TeamSection {...section.props} />;
+        case 'process':
+          return <ProcessSection {...section.props} />;
+        case 'callout':
+          return <Callout {...section.props} />;
+        default: {
+          const unsupported: never = section;
+          throw new Error(`Unsupported About section: ${JSON.stringify(unsupported)}`);
+        }
+      }
     })}
   </main>
   <Footer />
