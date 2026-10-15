@@ -4,6 +4,12 @@
   --section-text: var(--color-brand-ink);
   --section-muted: var(--color-brand-muted);
   --section-line: var(--color-brand-line);
+  background-color: var(--section-background);
+  color: var(--section-text);
+}
+
+.brand-section[data-color-mode='white'] {
+  --section-background: var(--color-brand-white);
 }
 
 .brand-section[data-color-mode='orange'] {

@@ -1,19 +1,19 @@
 ---
+import type { SectionColorProps } from '../../types/section';
 import ProcessStep, { type Props as Step } from './ProcessStep.astro';
 
-export interface Props {
+export interface Props extends SectionColorProps {
   eyebrow: string;
   headline: string;
   subsections: Step[];
   id?: string;
-  colorMode?: 'orange' | 'light' | 'dark';
 }
 
 const { eyebrow, headline, subsections, id, colorMode = 'light' } = Astro.props;
 ---
 
 <section class="process-section brand-section" data-color-mode={colorMode} id={id} aria-label={headline}>
-  <div class="process-inner">
+  <div class="site-content process-inner">
     <p class="process-eyebrow">{eyebrow}</p>
     <h2>{headline}</h2>
     <ol class="process-grid">
@@ -24,15 +24,11 @@ const { eyebrow, headline, subsections, id, colorMode = 'light' } = Astro.props;
 
 <style>
   .process-section {
-    background: var(--section-background);
-    color: var(--section-text);
     font-family: var(--font-body);
     scroll-margin-top: 5rem;
   }
 
   .process-inner {
-    width: min(1380px, 91%);
-    margin-inline: auto;
     padding-block: 60px;
     border-bottom: 1px solid var(--section-line);
   }
@@ -75,7 +71,6 @@ const { eyebrow, headline, subsections, id, colorMode = 'light' } = Astro.props;
   }
 
   @media (max-width: 450px) {
-    .process-inner { width: calc(100% - 40px); }
     .process-grid { grid-template-columns: minmax(0, 1fr); }
   }
 </style>

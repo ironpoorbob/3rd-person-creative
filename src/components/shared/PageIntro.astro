@@ -1,0 +1,110 @@
+---
+import type { SectionColorProps } from '../../types/section';
+import { withBase } from '../../utils/paths';
+
+export interface Props extends SectionColorProps {
+  eyebrow: string;
+  headline: string;
+  headlineEmphasis?: string;
+  subheadline: string;
+  description: string;
+  tagline: string;
+  services: string[];
+  linkText: string;
+  href: string;
+  id?: string;
+}
+
+const { eyebrow, headline, headlineEmphasis, subheadline, description, tagline,
+  services, linkText, href, id, colorMode = 'white' } = Astro.props;
+---
+
+<section class="page-intro brand-section" data-color-mode={colorMode} id={id}>
+  <div class="site-content intro-inner">
+    <p class="intro-eyebrow">{eyebrow}</p>
+    <h1>{headline}{headlineEmphasis && <> <em>{headlineEmphasis}</em></>}</h1>
+    <div class="intro-summary">
+      <p class="intro-lead">{subheadline}</p>
+      <p>{description}</p>
+    </div>
+    <div class="intro-meta">
+      <div class="intro-sequence">
+        <span>{tagline}</span>
+        <span class="sequence-divider" aria-hidden="true">·</span>
+        <ol aria-label="Services">
+          {services.map(service => <li>{service}</li>)}
+        </ol>
+      </div>
+      <a class="intro-link" href={withBase(href)}>
+        <span>{linkText}</span>
+        <svg width="16" height="16" style="flex: 0 0 16px; width: 16px; height: 16px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true" focusable="false"><path d="M12 4v16m-7-7 7 7 7-7" /></svg>
+      </a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .page-intro {
+    /* Clear the fixed 80px navbar, then leave space above the eyebrow. */
+    padding-block: calc(80px + 44px) 42px;
+    border-bottom: 13px solid var(--color-brand-accent);
+    font-family: var(--font-body);
+    scroll-margin-top: 5rem;
+  }
+  .intro-eyebrow {
+    margin: 0;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1.5;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+  }
+  h1 {
+    max-width: 1100px;
+    margin: 18px 0 22px;
+    font: 700 clamp(32px, 4.2vw, 65px)/1.07 var(--font-heading);
+    letter-spacing: -.075em;
+    white-space: pre-line;
+    overflow-wrap: break-word;
+  }
+  h1 em { font-style: italic; }
+  .intro-summary { display: grid; grid-template-columns: 1.25fr 1fr; gap: 5vw; }
+  .intro-summary p { margin: 0; font-size: clamp(16px, 1.5vw, 23px); line-height: 1.5; }
+  .intro-summary .intro-lead { font-size: clamp(18px, 1.8vw, 27px); font-weight: 700; line-height: 1.42; }
+  .intro-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 24px;
+    margin-top: 28px;
+    font-size: 11px;
+    font-weight: 700;
+    line-height: 1.6;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+  }
+  .intro-sequence, ol { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px; }
+  .sequence-divider { margin-inline: 8px; }
+  ol { margin: 0; padding: 0; list-style: none; }
+  li:not(:last-child)::after { content: ' →'; }
+  .intro-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    flex-shrink: 0;
+    max-width: 100%;
+    border-bottom: 1px solid currentColor;
+    color: inherit;
+    text-decoration: none;
+  }
+  .intro-link:hover { border-bottom-color: transparent; }
+  .intro-link:focus-visible { outline: 2px solid currentColor; outline-offset: 6px; }
+  @media (max-width: 700px) {
+    .page-intro { padding-block: calc(80px + 42px) 45px; }
+    h1 { margin-block: 22px 26px; }
+    .intro-summary { grid-template-columns: 1fr; gap: 20px; }
+    .intro-meta { flex-direction: column; align-items: flex-start; gap: 24px; }
+    .intro-sequence { flex-direction: column; align-items: flex-start; gap: 8px; }
+    .sequence-divider { display: none; }
+  }
+</style>

@@ -2,12 +2,15 @@
 import { getEntry } from 'astro:content';
 import Layout from '../layouts/Layout.astro';
 import Navbar from '../components/shared/Navbar.astro';
+import PageIntro from '../components/shared/PageIntro.astro';
 import AboutHero from '../components/about/AboutHero.astro';
 import StatsRibbon from '../components/about/StatsRibbon.astro';
 import PhilosophyHistory from '../components/about/PhilosophyHistory.astro';
 import TeamSection from '../components/about/TeamSection.astro';
 import Callout from '../components/shared/Callout.astro';
 import ProcessSection from '../components/shared/ProcessSection.astro';
+import ServicesSection from '../components/shared/ServicesSection.astro';
+import PeopleSection from '../components/shared/PeopleSection.astro';
 import Footer from '../components/shared/Footer.astro';
 
 const about = await getEntry('pages', 'about');
@@ -22,6 +25,8 @@ const { title, sections } = about.data;
     {sections.map(section => {
       // Narrow the whole section so its type and props stay linked.
       switch (section.type) {
+        case 'pageIntro':
+          return <PageIntro {...section.props} />;
         case 'aboutHero':
           return <AboutHero {...section.props} />;
         case 'statsRibbon':
@@ -30,6 +35,10 @@ const { title, sections } = about.data;
           return <PhilosophyHistory {...section.props} />;
         case 'team':
           return <TeamSection {...section.props} />;
+        case 'people':
+          return <PeopleSection {...section.props} />;
+        case 'services':
+          return <ServicesSection {...section.props} />;
         case 'process':
           return <ProcessSection {...section.props} />;
         case 'callout':

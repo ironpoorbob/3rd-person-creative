@@ -1,0 +1,51 @@
+---
+import type { SectionColorProps } from '../../types/section';
+import PersonProfile, { type Props as Person } from './PersonProfile.astro';
+
+export interface Props extends SectionColorProps {
+  eyebrow: string;
+  headline: string;
+  subsections: Person[];
+  id?: string;
+}
+
+const { eyebrow, headline, subsections, id, colorMode = 'light' } = Astro.props;
+---
+
+<section class="people-section brand-section" data-color-mode={colorMode} id={id} aria-label={headline}>
+  <div class="site-content people-inner">
+    <p class="people-eyebrow">{eyebrow}</p>
+    <h2>{headline}</h2>
+    <div class="people-profiles">
+      {subsections.map(person => <PersonProfile {...person} />)}
+    </div>
+  </div>
+</section>
+
+<style>
+  .people-section {
+    font-family: var(--font-body);
+    scroll-margin-top: 5rem;
+  }
+  .people-inner { padding-block: 30px 60px; }
+  .people-eyebrow {
+    margin: 0;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1.5;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+  }
+  h2 {
+    margin: 14px 0 26px;
+    font: 700 clamp(30px, 3.7vw, 54px)/1.12 var(--font-heading);
+    letter-spacing: -.065em;
+    white-space: pre-line;
+    overflow-wrap: break-word;
+  }
+  .people-profiles { display: grid; gap: 32px; }
+  @media (max-width: 750px) {
+    .people-inner { padding-block: 30px 55px; }
+    .people-profiles { gap: 26px; }
+  }
+</style>

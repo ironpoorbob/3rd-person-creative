@@ -6,6 +6,7 @@
 @theme {
   /* 3rd Person Creative: shared CSS variables and Tailwind utilities. */
   --color-brand-ink: #20211e;
+  --color-brand-white: #ffffff;
   --color-brand-paper: #f4f3ef;
   --color-brand-accent: #ff9f50;
   --color-brand-muted: #686963;
@@ -443,4 +444,18 @@
 
 .dark .prose pre {
   background: var(--color-surface-container);
+}
+
+/* Shared content edges for the branded sections and navigation. */
+.site-content {
+  width: min(1380px, 91%);
+  margin-inline: auto;
+}
+
+.nav-inner {
+  border-bottom: 1px solid var(--color-brand-line);
+}
+
+@media (max-width: 450px) {
+  .site-content { width: calc(100% - 40px); }
 }
