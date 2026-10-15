@@ -28,7 +28,7 @@ const sectionComponents = {
 <Layout title={title}>
   <Navbar />
   <main>
-    {sections.map(({ type, ...props }) => {
+    {sections.map(({ type, props }) => {
       const Component = sectionComponents[type];
       return <Component {...props} />;
     })}
