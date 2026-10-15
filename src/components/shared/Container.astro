@@ -2,7 +2,7 @@
 export interface Props {
   class?: string;
   as?: keyof HTMLElementTagNameMap;
-  size?: 'sm' | 'md' | 'lg' | 'xl' | 'full';
+  size?: 'sm' | 'md' | 'lg' | 'xl' | 'full' | 'brand';
 }
 
 const { class: className = '', as: Tag = 'div', size = 'xl' } = Astro.props;
@@ -12,10 +12,11 @@ const maxWidths = {
   md: 'max-w-5xl',
   lg: 'max-w-6xl',
   xl: 'max-w-7xl',
-  full: 'max-w-full'
+  full: 'max-w-full',
+  brand: 'site-content'
 };
 ---
 
-<Tag class:list={[maxWidths[size], 'mx-auto px-6', className]}>
+<Tag class:list={[maxWidths[size], size !== 'brand' && 'mx-auto px-6', className]}>
   <slot />
 </Tag>

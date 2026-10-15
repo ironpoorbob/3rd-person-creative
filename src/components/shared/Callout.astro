@@ -1,21 +1,21 @@
 ---
+import type { SectionColorProps } from '../../types/section';
 import { withBase } from '../../utils/paths';
 
-export interface Props {
+export interface Props extends SectionColorProps {
   eyebrow?: string;
   headline: string;
   subheadline?: string;
   linkText: string;
   href: string;
   id?: string;
-  colorMode?: 'orange' | 'light' | 'dark';
 }
 
 const { eyebrow, headline, subheadline, linkText, href, id, colorMode = 'orange' } = Astro.props;
 ---
 
 <section class="callout brand-section" data-color-mode={colorMode} id={id} aria-label={headline}>
-  <div class="callout-inner">
+  <div class="site-content callout-inner">
     {eyebrow && <p class="callout-eyebrow">{eyebrow}</p>}
     <h2>{headline}</h2>
     {subheadline && <p class="callout-subheadline">{subheadline}</p>}
@@ -30,16 +30,9 @@ const { eyebrow, headline, subheadline, linkText, href, id, colorMode = 'orange'
 
 <style>
   .callout {
-    background: var(--section-background);
-    color: var(--section-text);
     padding-block: 110px;
     font-family: var(--font-body);
     scroll-margin-top: 5rem;
-  }
-
-  .callout-inner {
-    width: min(1380px, 91%);
-    margin-inline: auto;
   }
 
   .callout-eyebrow {
@@ -99,7 +92,6 @@ const { eyebrow, headline, subheadline, linkText, href, id, colorMode = 'orange'
 
   @media (max-width: 450px) {
     .callout { padding-block: 64px; }
-    .callout-inner { width: calc(100% - 40px); }
     .callout h2 { margin-block: 24px; }
     .callout-subheadline { font-size: 18px; }
   }
