@@ -16,9 +16,9 @@ Local designer references are kept in `design-reference/`, which is excluded fro
 
 ## Editing About page sections
 
-Edit `src/content/pages/about.md`. Its `sections` array controls what appears on the page and in what order. Each entry has a `type`: `aboutHero`, `statsRibbon`, `philosophyHistory`, `team`, `process`, or `callout`.
+Edit `src/content/pages/about.md`. Its `sections` array controls what appears on the page and in what order. Each entry has a `type`: `pageIntro`, `aboutHero`, `statsRibbon`, `philosophyHistory`, `team`, `services`, `process`, `people`, or `callout`.
 
-Move an entire entry to reorder it, remove it to hide that section, or add another entry to repeat a component with different content. The `process` and `callout` entries contain their copy inside a nested `props` object; the original theme sections still keep their copy inside their components. An optional `props.id` on a process or callout section supplies an HTML anchor, not the component type. Use unique IDs when repeating sections.
+Move an entire entry to reorder it, remove it to hide that section, or add another entry to repeat a component with different content. The `pageIntro`, `services`, `process`, `people`, and `callout` entries contain their copy inside a nested `props` object; the original theme sections still keep their copy inside their components. An optional `props.id` on a process or callout section supplies an HTML anchor, not the component type. Use unique IDs when repeating sections.
 
 ```yaml
 sections:
@@ -34,13 +34,20 @@ sections:
 
 Theme sections without editable content can omit `props`. For a process component, its numbered items are in `props.subsections`; this is separate from the top-level `sections` array that orders the page components.
 
-Callout and process sections accept an optional `colorMode` inside `props`:
+Page intro, services, people, callout, and process sections accept an optional `colorMode` inside `props`:
 
+- `white`: pure white background with dark text.
 - `orange`: brand orange background with dark text.
 - `light`: brand paper background with dark text.
 - `dark`: brand ink background with light text.
 
-Callout defaults to `orange`; process defaults to `light`. For example, add `colorMode: dark` alongside `headline` inside a section's `props`, or pass `colorMode="dark"` when using the component directly. The schema validates these three values. Palettes live in `src/styles/section-colors.css` and use the shared brand tokens; text, rules, arrows, and link focus outlines adapt together.
+Callout defaults to `orange`; process and page intro default to `light`. For example, add `colorMode: dark` alongside `headline` inside a section's `props`, or pass `colorMode="dark"` when using the component directly. The schema validates these four values. The allowed values and shared `SectionColorProps` interface live in `src/types/section.ts`, imported by components and content validation. Palettes live in `src/styles/section-colors.css` and use the shared brand tokens; text, rules, arrows, and link focus outlines adapt together.
+
+`pageIntro` is the two-column page introduction with an H1. Use it once at the start of a page. Its `headline` supports YAML line breaks; optional `headlineEmphasis` adds an italic ending. `subheadline` and `description` supply the two paragraphs, while `tagline` and the `services` array form the bottom sequence. `linkText` and `href` control the link. About links to the Services section at `#services`.
+
+`services` renders a section heading and a `props.subsections` array of practice columns. Each column has `headline`, `tagline`, `description`, and a `services` list. Columns stack at 800px and below; the section defaults to `light`.
+
+`people` renders `props.subsections` as profiles with `name`, `role`, `biography`, and exactly two `photos` (each with `src` and `alt`). Photo paths in About content are relative to `about.md`, pointing into `src/assets/img/people/`; Astro validates and optimizes them. Profiles stack below 751px. The default color mode is `light`.
 
 Supported types and required fields are validated in `src/content.config.ts`. New component types must also be handled in the renderer switch in `src/pages/about.astro` before they can be used in content.
 
