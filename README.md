@@ -47,9 +47,11 @@ Callout defaults to `orange`; process and page intro default to `light`. For exa
 
 `services` renders a section heading and a `props.subsections` array of practice columns. Each column has `headline`, `tagline`, `description`, and a `services` list. Columns stack at 800px and below; the section defaults to `light`.
 
-`people` renders `props.subsections` as profiles with `name`, `role`, `biography`, and exactly two `photos` (each with `src` and `alt`). Photo paths in About content are relative to `about.md`, pointing into `src/assets/img/people/`; Astro validates and optimizes them. Profiles stack below 751px. The default color mode is `light`.
+`people` renders `props.subsections` as profiles with `name`, `role`, `biography`, and one or two `photos` (each with `src` and `alt`). Photo paths in About content are relative to `about.md`, pointing into `src/assets/img/people/`; Astro validates and optimizes them. Profiles stack below 751px. The default color mode is `light`.
 
 Supported types and required fields are validated in `src/content.config.ts`. New component types must also be handled in the renderer switch in `src/pages/about.astro` before they can be used in content.
+
+The global footer copy and Instagram link are configured in `src/data/footer.ts`. Its copyright year updates when the site is built.
 
 ## Development and builds
 

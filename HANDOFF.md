@@ -2,6 +2,12 @@
 
 ## Snapshot
 
+People now shows only the current portrait for Matthew and Sara. Content validation allows one or two photos per profile; single portraits use a narrower desktop column and a 240px maximum on mobile. Earlier photos remain in assets but are no longer referenced by About content.
+
+Mobile Navbar now has a working disclosure menu using an Astro-bundled custom element. It shares desktop links, exposes expanded state, swaps menu/close icons, closes on Escape (restoring toggle focus), outside click, link activation, focus leaving the header, and desktop resizing. Dropdown can scroll on short screens. Build/base-path checks passed; live Chrome interaction checks at 375 and 320px passed for open, Escape, outside click, link activation, and overflow. Existing homepage fragment destinations remain unchanged.
+
+Replaced the shared Studio Alpha footer with the comp’s minimal 3rd Person Creative footer: copyright left, Instagram arrow/link and tagline right, cream background, shared margins. Copy/link configuration lives in `src/data/footer.ts`; year is generated at build time. Applies to all pages using Footer. Mobile stacks below 601px. Subfolder build/URL checks and Chrome checks at 1440, 768, 375, 320px passed, including font loading, no overflow, and keyboard focus.
+
 Added `PeopleSection.astro` and looped `PersonProfile.astro` between Process and Callout, removing the legacy `team` entry from About content. Profiles use `props.subsections` with name, role, biography, and exactly two image/alt pairs. The four reference photos were copied into tracked `src/assets/img/people/`; content uses relative paths validated with Astro's `image()` helper and rendered through `Image`. Shared margins and four color modes apply (light default). Profiles show paired photos beside text on desktop, above text at 750px and below. Build and URL checks passed; browser checks at 1440, 768, 375, and 320px confirmed two people, four loaded photos, expected responsive layout, and no overflow. Desktop/mobile screenshots reviewed. Dev server was unreachable during this check.
 
 Added `ServicesSection.astro` and looped `ServiceColumn.astro`. About's `services` entry replaces statsRibbon and philosophyHistory directly after PageIntro; legacy components remain registered. All copy and both seven-item service lists come from `props.subsections`, validated in the content schema. Uses shared margins, fonts, four color modes (light default), and a single-column layout at 800px and below. PageIntro now targets `#services`. Other sections retain their order. Build and base-path URL checks passed; Chrome verified 14 list items, loaded fonts, 2/1 columns, and no overflow at 1440, 768, 375, and 320px. Dev server was unreachable during verification.
@@ -85,7 +91,7 @@ At this snapshot, About renders the original AboutHero, StatsRibbon, PhilosophyH
 ## Known issues and remaining adaptations
 
 - **Nav section destinations need revisiting.** Approach, Services, and People still point to homepage fragments (`/#approach`, `/#services`, `/#people`). Only the homepage Approach section currently has the corresponding ID. The About-page clarification came later; do not assume those links are already wired to the final About design.
-- The mobile menu button is still a theme placeholder without working menu behavior. Desktop navigation has been the focus.
+- Mobile menu behavior is implemented; navigation destinations still need the review noted above.
 - About's other sections, site/page titles, footer content, and metadata still include theme placeholders such as Studio Alpha and Architects.
 - `astro.config.mjs` still has the original theme's `site` domain. The preview path is configured through the build flag; canonical/social metadata will need a deliberate domain update before final publishing.
 - The broader About redesign and portfolio content are not complete. Continue section by section as directed; do not replace the entire theme automatically.
