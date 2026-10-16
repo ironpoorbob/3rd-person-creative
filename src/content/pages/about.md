@@ -44,13 +44,12 @@ sections:
           tagline: "Industry insight / Brand / Growth"
           description: "Our specialized wine, beverage, and hospitality practice."
           services:
-            - "Wine & beverage brand development"
-            - "Label & packaging design"
-            - "Business development & growth strategy"
-            - "Distributor relations & wholesale"
-            - "Trade & consumer marketing"
-            - "DTC strategy & brand alignment"
-            - "Events & experiential marketing"
+            - "Winery Representation Wholesale Sales | Distributor Relations & Management"
+            - "Trade/DTC Sales Alignment Strategy & Cross Marketing"
+            - "Trade & Consumer Market Engagement | National Events"
+            - "New & Existing Business Development"
+            - "Strategic Marketing | Trade Materials & Collateral | Consulting"
+            - "Brand Alignment Coaching"
   - type: process
     props:
       colorMode: white
@@ -88,16 +87,12 @@ sections:
           role: "Brand strategy & creative direction"
           biography: "Designer, strategist, and creative thinker working across branding, marketing, and experience design. Matthew connects big-picture thinking with practical, distinctive design."
           photos:
-            - src: "../../assets/img/people/matthew_before.webp"
-              alt: "Matthew Jervis playing guitar in an earlier photograph"
             - src: "../../assets/img/people/matthew.webp"
               alt: "Matthew Jervis seated thoughtfully in glasses and a scarf"
         - name: "Sara Gorr"
           role: "Wine strategy & brand alignment"
           biography: "Wine-industry professional with experience in business development, distributor relationships, and trade engagement. Sara combines market insight and professional coaching to help brands grow from the inside out."
           photos:
-            - src: "../../assets/img/people/sara_before.webp"
-              alt: "Sara Gorr at the beach in an earlier photograph"
             - src: "../../assets/img/people/sara.webp"
               alt: "Sara Gorr at a wine bar wearing glasses and a textured white jacket"
   - type: callout

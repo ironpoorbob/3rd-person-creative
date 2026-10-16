@@ -63,7 +63,7 @@ const pages = defineCollection({
             photos: z.array(z.object({
               src: image(),
               alt: z.string().min(1),
-            }).strict()).length(2),
+            }).strict()).min(1).max(2),
           }).strict()).min(1),
         }).strict(),
       }).strict(),

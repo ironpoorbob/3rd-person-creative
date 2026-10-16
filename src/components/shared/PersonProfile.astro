@@ -12,9 +12,9 @@ export interface Props {
 const { name, role, biography, photos } = Astro.props;
 ---
 
-<article class="person-profile">
+<article class:list={["person-profile", { "single-portrait": photos.length === 1 }]}>
   <div class="person-photos">
-    {photos.map(photo => <Image src={photo.src} alt={photo.alt} widths={[160, 320, 640]} sizes="(max-width: 750px) 45vw, 16vw" loading="lazy" format="webp" />)}
+    {photos.map(photo => <Image src={photo.src} alt={photo.alt} widths={[160, 320, 640]} sizes={photos.length === 1 ? "(max-width: 750px) 240px, 24vw" : "(max-width: 750px) 45vw, 16vw"} loading="lazy" format="webp" />)}
   </div>
   <div class="person-details">
     <h3>{name}</h3>
@@ -34,6 +34,8 @@ const { name, role, biography, photos } = Astro.props;
     color: var(--section-text, var(--color-brand-ink));
     font-family: var(--font-body);
   }
+  .person-profile.single-portrait { grid-template-columns: minmax(0, 1fr) minmax(0, 3fr); }
+  .single-portrait .person-photos { grid-template-columns: minmax(0, 1fr); }
   .person-profile:last-child { padding-bottom: 0; border-bottom: 0; }
   .person-photos { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
   .person-photos img {
@@ -44,13 +46,13 @@ const { name, role, biography, photos } = Astro.props;
     object-fit: cover;
     object-position: center 28%;
   }
-  .person-photos img:first-child { object-position: center; }
   .person-details { min-width: 0; padding-top: 2px; overflow-wrap: break-word; }
   h3 { margin: 0 0 9px; font: 700 clamp(24px, 2.5vw, 34px)/1.1 var(--font-heading); letter-spacing: -.055em; }
   .person-role { margin: 0 0 14px; font-size: 13px; line-height: 1.6; letter-spacing: .14em; text-transform: uppercase; color: var(--section-muted, var(--color-brand-muted)); }
   .person-bio { margin: 0; font-size: 16px; line-height: 1.65; }
   @media (max-width: 750px) {
-    .person-profile { grid-template-columns: minmax(0, 1fr); gap: 18px; padding-bottom: 25px; }
+    .person-profile, .person-profile.single-portrait { grid-template-columns: minmax(0, 1fr); gap: 18px; padding-bottom: 25px; }
     .person-photos { max-width: 420px; }
+    .single-portrait .person-photos { width: min(100%, 240px); }
   }
 </style>
