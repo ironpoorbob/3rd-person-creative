@@ -12,7 +12,8 @@ const navLinks = [
 
 ---
 
-<header class="fixed top-0 w-full z-50 bg-white/90 dark:bg-background-dark/90 backdrop-blur-md">
+<header data-site-header class="fixed top-0 w-full z-50 bg-white/90 dark:bg-background-dark/90 backdrop-blur-md">
+  <mobile-navigation>
   <div class="site-content nav-inner h-20 flex items-center justify-between">
     <!-- Logo -->
     <a href={withBase('/')} class="wordmark dark:text-slate-100" aria-label="3rd Person Creative home">
@@ -32,11 +33,76 @@ const navLinks = [
     </nav>
 
     <!-- Mobile menu button -->
-    <button class="lg:hidden p-2 text-slate-600 dark:text-slate-400" aria-label="Open menu">
-      <Icon name="menu" size={24} />
+    <button type="button" class="menu-toggle lg:hidden p-2 text-slate-600 dark:text-slate-400" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-nav">
+      <span class="menu-open-icon"><Icon name="menu" size={24} /></span>
+      <span class="menu-close-icon" hidden><Icon name="close" size={24} /></span>
     </button>
   </div>
+  <nav id="mobile-nav" class="mobile-nav" aria-label="Mobile navigation" hidden>
+    <div class="site-content mobile-links">
+      {navLinks.map(({ label, href }) => (
+        <a href={href}>
+          <span>{label}</span>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" aria-hidden="true" focusable="false"><path d="M4 20 20 4M15 4h5v5" /></svg>
+        </a>
+      ))}
+    </div>
+  </nav>
+  </mobile-navigation>
 </header>
+
+<script>
+  class MobileNavigation extends HTMLElement {
+    connectedCallback() {
+      const toggle = this.querySelector<HTMLButtonElement>('.menu-toggle')!;
+      const menu = this.querySelector<HTMLElement>('.mobile-nav')!;
+      const openIcon = this.querySelector<HTMLElement>('.menu-open-icon')!;
+      const closeIcon = this.querySelector<HTMLElement>('.menu-close-icon')!;
+      const desktop = window.matchMedia('(min-width: 1024px)');
+      const controller = new AbortController();
+      this.cleanup = () => controller.abort();
+      const { signal } = controller;
+      const setOpen = (open: boolean) => {
+        menu.hidden = !open;
+        toggle.setAttribute('aria-expanded', String(open));
+        toggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+        openIcon.hidden = open;
+        closeIcon.hidden = !open;
+      };
+      toggle.addEventListener('click', () => setOpen(menu.hidden), { signal });
+      menu.addEventListener('click', event => {
+        if (event.target instanceof Element && event.target.closest('a')) {
+          setOpen(false);
+          toggle.focus();
+        }
+      }, { signal });
+      document.addEventListener('keydown', event => {
+        if (event.key === 'Escape' && !menu.hidden) {
+          setOpen(false);
+          toggle.focus();
+        }
+      }, { signal });
+      document.addEventListener('pointerdown', event => {
+        if (event.target instanceof Node && !this.contains(event.target)) setOpen(false);
+      }, { signal });
+      this.addEventListener('focusout', event => {
+        if (event.relatedTarget instanceof Node && !this.contains(event.relatedTarget)) setOpen(false);
+      }, { signal });
+      desktop.addEventListener('change', () => {
+        if (desktop.matches) {
+          if (menu.contains(document.activeElement) || document.activeElement === toggle) {
+            this.querySelector<HTMLAnchorElement>('.desktop-nav a')?.focus();
+          }
+          setOpen(false);
+        }
+      }, { signal });
+      setOpen(false);
+    }
+    private cleanup?: () => void;
+    disconnectedCallback() { this.cleanup?.(); }
+  }
+  if (!customElements.get('mobile-navigation')) customElements.define('mobile-navigation', MobileNavigation);
+</script>
 
 <style>
   .desktop-nav {
