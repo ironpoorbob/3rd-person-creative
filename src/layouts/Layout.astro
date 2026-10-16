@@ -1,15 +1,16 @@
 ---
+import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
 import { withBase } from '../utils/paths';
 import Favicons from '../components/shared/Favicons.astro';
 import BrandFonts from '../components/shared/BrandFonts.astro';
 import '../styles/global.css';
 
 export interface Props {
-  title: string;
+  title?: string;
   description?: string;
 }
 
-const { title, description = "Architectural studio specializing in minimalist design" } = Astro.props;
+const { title = SITE_TITLE, description = SITE_DESCRIPTION } = Astro.props;
 
 const fonts = [400, 500, 600, 700, 900].map(weight => ({
   weight,

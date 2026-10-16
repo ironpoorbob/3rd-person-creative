@@ -1,5 +1,5 @@
 ---
-title: "About Us | Studio Alpha Architecture"
+title: "About | 3rd Person Creative"
 sections:
   - type: pageIntro
     props:
