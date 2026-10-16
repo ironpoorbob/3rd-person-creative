@@ -1,6 +1,5 @@
 ---
 import { withBase } from '../../utils/paths';
-import Icon from './Icon.astro';
 
 const navLinks = [
   { label: 'Approach', href: withBase('/#approach') },
@@ -34,8 +33,9 @@ const navLinks = [
 
     <!-- Mobile menu button -->
     <button type="button" class="menu-toggle lg:hidden p-2 text-slate-600 dark:text-slate-400" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-nav">
-      <span class="menu-open-icon"><Icon name="menu" size={24} /></span>
-      <span class="menu-close-icon" hidden><Icon name="close" size={24} /></span>
+      <span class="menu-icon" aria-hidden="true">
+        <span></span><span></span><span></span>
+      </span>
     </button>
   </div>
   <nav id="mobile-nav" class="mobile-nav" aria-label="Mobile navigation" hidden>
@@ -56,8 +56,6 @@ const navLinks = [
     connectedCallback() {
       const toggle = this.querySelector<HTMLButtonElement>('.menu-toggle')!;
       const menu = this.querySelector<HTMLElement>('.mobile-nav')!;
-      const openIcon = this.querySelector<HTMLElement>('.menu-open-icon')!;
-      const closeIcon = this.querySelector<HTMLElement>('.menu-close-icon')!;
       const desktop = window.matchMedia('(min-width: 1024px)');
       const controller = new AbortController();
       this.cleanup = () => controller.abort();
@@ -66,8 +64,6 @@ const navLinks = [
         menu.hidden = !open;
         toggle.setAttribute('aria-expanded', String(open));
         toggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
-        openIcon.hidden = open;
-        closeIcon.hidden = !open;
       };
       toggle.addEventListener('click', () => setOpen(menu.hidden), { signal });
       menu.addEventListener('click', event => {
