@@ -2,6 +2,8 @@
 
 ## Snapshot
 
+Brand fonts migrated to WOFF2: converted the existing Manrope 400/700/800 and DM Sans 400/700 TTFs using FontTools (temporary /tmp environment, no project dependency). Preserved original TTFs in `src/assets/fonts/source/`, served WOFF2s and existing OFL licenses in `public/fonts/`, and updated BrandFonts. Total size reduced from 382,068 to 128,784 bytes (66.3%). Glyph order, character maps, and horizontal metrics checked against originals. Subfolder build and URL checks passed.
+
 People now shows only the current portrait for Matthew and Sara. Content validation allows one or two photos per profile; single portraits use a narrower desktop column and a 240px maximum on mobile. Earlier photos remain in assets but are no longer referenced by About content.
 
 Mobile Navbar now has a working disclosure menu using an Astro-bundled custom element. It shares desktop links, exposes expanded state, swaps menu/close icons, closes on Escape (restoring toggle focus), outside click, link activation, focus leaving the header, and desktop resizing. Dropdown can scroll on short screens. Build/base-path checks passed; live Chrome interaction checks at 375 and 320px passed for open, Escape, outside click, link activation, and overflow. Existing homepage fragment destinations remain unchanged.
@@ -38,7 +40,7 @@ About now renders an ordered `sections` array from `src/content/pages/about.md`.
 
 Verification for the sections migration: subfolder build and URL checks passed. The existing dev process initially retained the old content shape (`sections` was undefined); a forced dev restart loaded the new schema. The refreshed About route returned 200 with all six sections in order and five process steps. The replacement dev process runs in the background; inspect current Astro status rather than relying on a saved PID.
 
-Latest update: the user reports the original PR merged, local rebased, and dev server running. Shared brand color/font tokens are now defined in `src/styles/global.css` and used by Navbar, Callout, ProcessSection, and ProcessStep. Existing theme colors and Inter typography remain for sections not yet redesigned. WOFF2 migration is deferred until requested; the user agreed to revisit it after the PR merge.
+Latest update: the user reports the original PR merged, local rebased, and dev server running. Shared brand color/font tokens are now defined in `src/styles/global.css` and used by Navbar, Callout, ProcessSection, and ProcessStep. Existing theme colors and Inter typography remain for sections not yet redesigned. WOFF2 migration is now complete; see the latest snapshot.
 
 Recorded after commit `a54dfba` (`Updates readme for 3rd Person Creative notes`). The working tree was clean before adding this handoff and `AGENTS.md`. Recheck Git for subsequent work; these notes do not establish the current PR, deployment, or server status.
 

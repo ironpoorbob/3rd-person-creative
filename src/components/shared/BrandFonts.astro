@@ -11,7 +11,7 @@ const fontFaces = fonts.flatMap(({ family, file, weights }) => weights.map(weigh
     font-style: normal;
     font-weight: ${weight};
     font-display: swap;
-    src: url(${JSON.stringify(withBase(`/fonts/${file}-${weight}-normal.ttf`))}) format('truetype');
+    src: url(${JSON.stringify(withBase(`/fonts/${file}-${weight}-normal.woff2`))}) format('woff2');
   }
 `)).join('');
 ---
