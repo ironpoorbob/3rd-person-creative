@@ -53,6 +53,8 @@ Supported types and required fields are validated in `src/content.config.ts`. Ne
 
 The global footer copy and Instagram link are configured in `src/data/footer.ts`. Its copyright year updates when the site is built.
 
+Brand fonts (Manrope and DM Sans) are self-hosted as WOFF2 in `public/fonts/`, alongside their OFL licenses. Original TTF sources are retained in `src/assets/fonts/source/` and are not published as public assets.
+
 ## Development and builds
 
 Use Node.js **22.12 or newer**.
