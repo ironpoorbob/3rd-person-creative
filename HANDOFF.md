@@ -2,9 +2,11 @@
 
 ## Snapshot
 
+Removed the blog index and dynamic post routes so demo posts no longer build or ship to production. Blog source content, layout, and components remain for future use. Removed the redundant sitemap blog filter and stale RSS discovery link. Normal production build verified exactly four HTML pages (Home, About, Contact, Projects), matching www-root sitemap URLs, and no blog output. Delete any previously uploaded blog/ directory from the host when deploying. Build-path preference clarification below supersedes earlier claims of a standing no-base preference.
+
 Canonical host correction: user wants https://www.3rdpersoncreative.com (with www). Updated Astro site config and .htaccess to redirect HTTP/non-www production requests to HTTPS/www, retaining path/query and leaving preview hosts alone. Normal root build passed; verified www in generated HTML metadata, sitemap, robots reference, and copied .htaccess. This supersedes previous non-www notes. Apache runtime redirects still require verification on the host.
 
-Current build preference: user requested normal production builds only for now, without --base. Latest npm run build passed and output is dist/client/ for https://3rdpersoncreative.com. Verified no /3rd-person/ prefix in generated HTML, four root sitemap URLs, root robots sitemap reference, .htaccess present, and removed legal/case-study routes absent. Legacy blog routes still build but are excluded from the sitemap.
+Build validation: use a normal npm run build to inspect production output for https://www.3rdpersoncreative.com at the domain root. The user requested this to verify production sitemap and URL paths, not to establish a blanket preference against base-path builds. Subfolder builds remain supported for preview testing when relevant. Production output belongs in dist/client/.
 
 Removed both standalone case-study routes at user request; portfolio now uses thumbnails and popup carousels only. Deleted unused HeroCarousel and CaseStudyLink components, plus caseStudy/caseStudyHref data. ProjectTeaser and all five project galleries remain unchanged. Subfolder build passed; verified both routes absent, five dialogs retained, and four sitemap URLs (home, about, contact, projects). Remove old case-study directories from the host when uploading over a previous deployment.
 
