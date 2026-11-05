@@ -95,8 +95,8 @@ sections:
           role: "Wine strategy & brand alignment"
           biography: "Wine-industry professional with experience in business development, distributor relationships, and trade engagement. Sara combines market insight and professional coaching to help brands grow from the inside out."
           photos:
-            - src: "../../assets/img/people/sara.webp"
-              alt: "Sara Gorr at a wine bar wearing glasses and a textured white jacket"
+            - src: "../../assets/img/people/SARA_Headshot.jpg"
+              alt: "Portrait of Sara Gorr"
   - type: callout
     props:
       colorMode: orange
