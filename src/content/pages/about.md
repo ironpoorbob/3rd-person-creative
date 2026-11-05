@@ -104,5 +104,5 @@ sections:
       headline: "Your Story, Our Mission."
       subheadline: "New idea. Growing business. Fresh perspective. Let's talk."
       linkText: "Start a conversation"
-      href: "mailto:hello@3rdpersoncreative.com?subject=Let's%20talk"
+      href: "/contact/"
 ---
