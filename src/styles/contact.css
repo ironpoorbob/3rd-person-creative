@@ -1,0 +1,26 @@
+.contact-page { background: var(--color-brand-paper); color: var(--color-brand-ink); font-family: var(--font-body); padding: 140px 0 88px; }
+.contact-hero { padding-bottom: clamp(40px, 5vw, 72px); }
+.contact-eyebrow { font-size: 14px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; margin-bottom: 20px; }
+.contact-hero h1 { font: 800 clamp(48px, 7vw, 88px)/1.08 var(--font-heading); letter-spacing: -.055em; }
+.contact-intro { max-width: 760px; margin-top: 24px; font-size: clamp(20px, 2.3vw, 28px); line-height: 1.5; }
+.contact-columns { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); gap: clamp(36px, 6vw, 88px); }
+.contact-page h2 { font: 700 clamp(24px, 2.5vw, 32px)/1.2 var(--font-heading); letter-spacing: -.035em; margin-bottom: 24px; }
+.contact-form { background: white; padding: clamp(20px, 3vw, 40px); border: 1px solid var(--color-brand-line); }
+.contact-fields { display: grid; gap: 24px; }
+.contact-field-row { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
+.contact-field { display: grid; gap: 8px; min-width: 0; }
+.contact-field label { font-weight: 700; font-size: 14px; }
+.contact-field :is(input,select,textarea) { min-width: 0; width: 100%; padding: 12px; border: 1px solid var(--color-brand-line); background: white; color: var(--color-brand-ink); font: inherit; font-size: 16px; border-radius: 0; }
+.contact-field textarea { resize: vertical; }
+.contact-page :is(a,input,select,textarea,button):focus-visible { outline: 2px solid var(--color-brand-ink); outline-offset: 4px; }
+.contact-page a { text-decoration: underline; text-underline-offset: 4px; overflow-wrap: anywhere; }
+.contact-note { font-size: 15px; line-height: 1.6; color: var(--color-brand-muted); }
+.contact-fields button { justify-self: start; padding: 14px 22px; background: var(--color-brand-accent); color: var(--color-brand-ink); font-weight: 700; cursor: pointer; }
+.contact-fields button:hover { background: var(--color-brand-ink); color: white; }
+.contact-fields button span { margin-left: 12px; }
+.contact-direct { font-size: 18px; line-height: 1.6; }
+.contact-person { margin-top: 28px; }
+.contact-person h3 { font-weight: 700; margin-bottom: 4px; }
+.contact-social { margin-top: 36px; padding-top: 24px; border-top: 1px solid var(--color-brand-line); }
+@media (max-width: 850px) { .contact-columns { grid-template-columns: minmax(0, 1fr); } }
+@media (max-width: 600px) { .contact-page { padding-top: 116px; padding-bottom: 48px; } .contact-field-row { grid-template-columns: minmax(0, 1fr); } }
