@@ -1,13 +1,13 @@
 ---
 import Container from '../shared/Container.astro';
+import { projects } from '../../data/projects';
 
 const filters = [
   { name: "All Projects", active: true },
-  { name: "Residential", active: false },
-  { name: "Commercial", active: false },
-  { name: "Urban Design", active: false },
-  { name: "Cultural", active: false },
-  { name: "Interior", active: false }
+  ...Array.from(new Set(projects.map(project => project.category))).map(category => ({
+    name: category.toLowerCase().replace(/\b\w/g, letter => letter.toUpperCase()),
+    active: false,
+  })),
 ];
 ---
 

@@ -1,0 +1,27 @@
+project-teaser { display: block; min-width: 0; }
+.teaser-card { position: relative; }
+.teaser-trigger { position: absolute; inset: 0; width: 100%; height: 100%; cursor: pointer; border: 0; background: transparent; }
+.teaser-trigger:focus-visible { outline: 2px solid var(--color-brand-ink); outline-offset: 5px; }
+.project-dialog { width: min(900px, calc(100% - 32px)); max-height: calc(100dvh - 32px); margin: auto; padding: 0; border: 0; background: var(--color-brand-paper); color: var(--color-brand-ink); font-family: var(--font-body); overflow-y: auto; overscroll-behavior: contain; }
+.project-dialog::backdrop { background: rgb(0 0 0 / .65); }
+.teaser-panel { position: relative; padding: 48px; }
+.teaser-close { position: absolute; top: 8px; right: 8px; width: 44px; height: 44px; font-size: 30px; cursor: pointer; }
+.project-dialog h2 { margin: 0 32px 14px 0; font: 700 clamp(28px, 4vw, 44px)/1.1 var(--font-heading); letter-spacing: -.05em; }
+.teaser-subheadline { margin: 0 0 24px; font-size: 20px; line-height: 1.4; }
+.teaser-gallery { background: white; }
+.teaser-gallery figure { margin: 0; }
+.teaser-gallery figure[hidden] { display: none; }
+.teaser-gallery img { display: block; width: 100%; height: 380px; object-fit: contain; }
+.teaser-controls { display: flex; justify-content: center; align-items: center; gap: 20px; margin-top: 12px; }
+.teaser-controls button { width: 44px; height: 44px; border: 1px solid currentColor; cursor: pointer; }
+.teaser-description { margin-top: 24px; font-size: 17px; line-height: 1.65; white-space: pre-line; }
+.teaser-contact-link { display: inline-flex; align-items: center; gap: 8px; color: inherit; font-family: var(--font-body); font-size: 15px; line-height: 1.5; text-decoration: underline; text-underline-offset: 4px; }
+.teaser-contact-link svg { width: 18px; height: 18px; flex: 0 0 18px; }
+.teaser-contact-link:focus-visible { outline: 2px solid currentColor; outline-offset: 4px; }
+.teaser-contact { display: flex; justify-content: flex-end; margin-top: 24px; }
+.project-dialog :is(button,a):focus-visible { outline: 2px solid currentColor; outline-offset: 3px; }
+@media(max-width: 600px) {
+  .teaser-panel { padding: 54px 20px 28px; }
+  .teaser-gallery img { height: 240px; }
+  .teaser-subheadline { font-size: 18px; }
+}
