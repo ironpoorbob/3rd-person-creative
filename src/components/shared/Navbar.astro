@@ -1,12 +1,11 @@
 ---
+import navLogo from '../../assets/img/3rd-person-nav-logo-blk.svg?url';
 import { withBase } from '../../utils/paths';
 
 const navLinks = [
-  { label: 'Approach', href: withBase('/#approach') },
-  { label: 'Services', href: withBase('/#services') },
-  { label: 'People', href: withBase('/#people') },
+  { label: 'Projects', href: withBase('/projects/') },
   { label: 'About', href: withBase('/about/') },
-  { label: "Let's talk", href: "mailto:hello@3rdpersoncreative.com?subject=Let's%20talk" },
+  { label: "Let's talk", href: withBase('/contact/') },
 ];
 
 ---
@@ -15,8 +14,8 @@ const navLinks = [
   <mobile-navigation>
   <div class="site-content nav-inner h-20 flex items-center justify-between">
     <!-- Logo -->
-    <a href={withBase('/')} class="wordmark dark:text-slate-100" aria-label="3rd Person Creative home">
-      3rd person <span>creative.</span>
+    <a href={withBase('/')} class="wordmark" aria-label="3rd Person Creative home">
+      <img src={navLogo} alt="" width="217" height="22" class="nav-logo" />
     </a>
 
     <!-- Desktop Navigation -->
@@ -113,21 +112,11 @@ const navLinks = [
     text-decoration: underline;
   }
 
-  .wordmark {
-    color: var(--color-brand-ink);
-    font: 800 20px/1 var(--font-heading);
-    letter-spacing: -0.07em;
-    white-space: nowrap;
-  }
-
-  .wordmark span {
-    font-weight: 400;
-    letter-spacing: -0.045em;
-  }
+  .wordmark { display: block; flex-shrink: 0; }
+  .nav-logo { display: block; width: 220px; height: auto; }
+  .wordmark:focus-visible { outline: 2px solid var(--color-brand-ink); outline-offset: 4px; }
 
   @media (max-width: 450px) {
-    .wordmark {
-      font-size: 18px;
-    }
+    .nav-logo { width: 198px; }
   }
 </style>

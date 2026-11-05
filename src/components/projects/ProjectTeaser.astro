@@ -1,0 +1,92 @@
+---
+import { Image } from 'astro:assets';
+import type { Project } from '../../data/projects';
+import { withBase } from '../../utils/paths';
+import '../../styles/project-teaser.css';
+
+interface Props { project: Project; id: string; }
+const { project, id } = Astro.props;
+const subheadline = project.teaser ? project.teaser.subheadline : [project.category, project.location, project.year].filter(Boolean).join(" · ");
+const images = project.teaser?.images?.length ? project.teaser.images : [{src: project.image, alt: project.alt}];
+---
+<project-teaser>
+  <div class="teaser-card">
+    <slot />
+    <button class="teaser-trigger" type="button" aria-label={`Preview ${project.title}`} aria-haspopup="dialog" aria-controls={id}></button>
+  </div>
+  <dialog id={id} class="project-dialog" aria-labelledby={`${id}-title`}>
+    <div class="teaser-panel">
+      <button type="button" class="teaser-close" aria-label="Close project preview" autofocus>×</button>
+      <h2 id={`${id}-title`}>{project.title}</h2>
+      {subheadline && <p class="teaser-subheadline">{subheadline}</p>}
+      <div class="teaser-gallery">
+        {images.map((image, index) => (
+          <figure hidden={index !== 0}>
+            {image.src.format === 'svg'
+              ? <img src={image.src.src} alt={image.alt} width={image.src.width} height={image.src.height} loading="lazy" />
+              : <Image src={image.src} alt={image.alt} widths={[480, 800, 1200]} sizes="(max-width: 800px) 90vw, 800px" loading="lazy" />}
+          </figure>
+        ))}
+      </div>
+      {images.length > 1 && <div class="teaser-controls">
+        <button type="button" data-direction="-1" aria-label="Previous image">←</button>
+        <span class="teaser-count" aria-live="polite" aria-atomic="true">1 / {images.length}</span>
+        <button type="button" data-direction="1" aria-label="Next image">→</button>
+      </div>}
+      <div class="teaser-contact"><a class="teaser-contact-link" href={withBase('/contact/')}>
+        Let's Talk
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true" focusable="false"><path d="M4 12h16m-6-6 6 6-6 6" /></svg>
+      </a></div>
+      {project.teaser?.description && <p class="teaser-description">{project.teaser.description}</p>}
+    </div>
+  </dialog>
+</project-teaser>
+<script>
+  class ProjectTeaser extends HTMLElement {
+    private cleanup?: () => void;
+    connectedCallback() {
+      const controller = new AbortController();
+      const { signal } = controller;
+      const dialog = this.querySelector<HTMLDialogElement>('dialog')!;
+      const trigger = this.querySelector<HTMLButtonElement>('.teaser-trigger')!;
+      const slides = [...this.querySelectorAll<HTMLElement>('figure')];
+      const count = this.querySelector('.teaser-count');
+      let current = 0;
+      let previousOverflow = '';
+      const show = (index: number) => {
+        current = (index + slides.length) % slides.length;
+        slides.forEach((slide, i) => { slide.hidden = i !== current; });
+        if (count) count.textContent = `${current + 1} / ${slides.length}`;
+      };
+      trigger.addEventListener('click', () => {
+        show(0);
+        previousOverflow = document.body.style.overflow;
+        document.body.style.overflow = 'hidden';
+        dialog.showModal();
+        dialog.scrollTop = 0;
+        slides.forEach(slide => slide.querySelectorAll('img').forEach(img => { img.loading = 'eager'; }));
+      }, { signal });
+      this.querySelector('.teaser-close')!.addEventListener('click', () => dialog.close(), { signal });
+      dialog.addEventListener('close', () => {
+        document.body.style.overflow = previousOverflow;
+        trigger.focus();
+      }, { signal });
+      let backdropDown = false;
+      dialog.addEventListener('pointerdown', event => { backdropDown = event.target === dialog; }, { signal });
+      dialog.addEventListener('click', event => { if (backdropDown && event.target === dialog) dialog.close(); }, { signal });
+      this.querySelectorAll<HTMLButtonElement>('[data-direction]').forEach(button => button.addEventListener('click', () => show(current + Number(button.dataset.direction)), { signal }));
+      dialog.addEventListener('keydown', event => {
+        if (event.key === 'ArrowRight' || event.key === 'ArrowLeft') {
+          event.preventDefault();
+          show(current + (event.key === 'ArrowRight' ? 1 : -1));
+        }
+      }, { signal });
+      this.cleanup = () => {
+        if (dialog.open) { dialog.close(); document.body.style.overflow = previousOverflow; }
+        controller.abort();
+      };
+    }
+    disconnectedCallback() { this.cleanup?.(); }
+  }
+  if (!customElements.get('project-teaser')) customElements.define('project-teaser', ProjectTeaser);
+</script>

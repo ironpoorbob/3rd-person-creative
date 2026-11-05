@@ -1,40 +1,63 @@
 ---
-import Input from '../shared/Input.astro';
-import Textarea from '../shared/Textarea.astro';
-import Select from '../shared/Select.astro';
-import Icon from '../shared/Icon.astro';
-
-const projectTypes = [
-  { value: 'residential', label: 'Residential' },
-  { value: 'commercial', label: 'Commercial' },
-  { value: 'interior', label: 'Interior Design' },
-  { value: 'urban', label: 'Urban Planning' }
-];
+import { contact } from '../../data/contact';
 ---
-
-<div class="bg-white dark:bg-slate-900 p-8 md:p-12 rounded shadow-sm border border-slate-200 dark:border-slate-800">
-  <form action="#" class="space-y-8" method="POST">
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-      <Input label="Full Name" name="name" placeholder="Jane Doe" required />
-      <Input label="Email Address" name="email" type="email" placeholder="jane@example.com" required />
+<section class="contact-form" aria-labelledby="inquiry-heading">
+  <h2 id="inquiry-heading">Tell us about your project</h2>
+  <email-inquiry>
+  <form class="contact-fields" action={`mailto:${contact.email}`} method="post" enctype="text/plain">
+    <div class="contact-field-row">
+      <div class="contact-field">
+        <label for="contact-name">Full name</label>
+        <input id="contact-name" name="name" autocomplete="name" placeholder="Your name" required />
+      </div>
+      <div class="contact-field">
+        <label for="contact-email">Email address</label>
+        <input id="contact-email" name="email" type="email" autocomplete="email" placeholder="you@example.com" required />
+      </div>
     </div>
-    
-    <Select label="Project Type" name="projectType" options={projectTypes} />
-    
-    <Textarea 
-      label="Message" 
-      name="message" 
-      placeholder="Tell us about your project goals, location, and timeline..." 
-      rows={6} 
-      required 
-    />
-    
-    <button 
-      type="submit" 
-      class="w-full md:w-auto bg-primary text-white px-10 py-4 rounded font-bold uppercase tracking-widest hover:bg-primary/90 transition-all flex items-center justify-center gap-3 group"
-    >
-      Send Inquiry
-      <Icon name="send" size={18} class="transition-transform group-hover:translate-x-1" />
-    </button>
+    <div class="contact-field">
+      <label for="contact-type">Project type</label>
+      <select id="contact-type" name="projectType">
+        <option value="">Choose a project type</option>
+        {contact.projectTypes.map(type => <option value={type}>{type}</option>)}
+      </select>
+    </div>
+    <div class="contact-field">
+      <label for="contact-message">Message</label>
+      <textarea id="contact-message" name="message" rows="6" placeholder="Tell us about your idea, goals, and timeline..." required></textarea>
+    </div>
+    <p id="contact-form-note" class="contact-note">This opens your email app with your project details. Review the email and click Send there. You can also email <a href={`mailto:${contact.email}`}>{contact.email}</a> directly.</p>
+    <button type="submit" aria-describedby="contact-form-note">Send inquiry <span aria-hidden="true">→</span></button>
   </form>
-</div>
+  </email-inquiry>
+</section>
+
+<script>
+  class EmailInquiry extends HTMLElement {
+    private cleanup?: () => void;
+    connectedCallback() {
+      const form = this.querySelector('form')!;
+      const controller = new AbortController();
+      form.addEventListener('submit', event => {
+        event.preventDefault();
+        const data = new FormData(form);
+        const field = (name: string) => String(data.get(name) ?? '').trim();
+        const projectType = field('projectType') || 'General inquiry';
+        const subject = `Project inquiry: ${projectType}`;
+        const body = [
+          `Name: ${field('name')}`,
+          `Email: ${field('email')}`,
+          `Project type: ${projectType}`,
+          '',
+          field('message'),
+        ].join('\r\n');
+        const link = document.createElement('a');
+        link.href = `${form.action}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+        link.click();
+      }, { signal: controller.signal });
+      this.cleanup = () => controller.abort();
+    }
+    disconnectedCallback() { this.cleanup?.(); }
+  }
+  if (!customElements.get('email-inquiry')) customElements.define('email-inquiry', EmailInquiry);
+</script>
