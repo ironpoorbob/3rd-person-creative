@@ -59,11 +59,21 @@ Brand fonts (Manrope and DM Sans) are self-hosted as WOFF2 in `public/fonts/`, a
 
 Project cards and teasers use `src/data/projects.ts`. Each project can supply `teaser.subheadline`, `teaser.description`, and an ordered `teaser.images` array of imported assets and alt text. The card thumbnail (`image`) is separate; previews without gallery images fall back to it. Every popup includes a “Let's Talk” link to `/contact/`, using the configured base path. Cards open previews without a separate link, and the portfolio filter row is omitted.
 
-Case-study pages remain at `/projects/place-branding/giving-places-a-personality/` and `/projects/identity/making-brands-unmistakable/`. Place Branding uses its thumbnail as hero and the remaining images in the body; Identity uses a hero carousel. Both share their project copy and images from `src/data/projects.ts`, with placeholder subheadlines under `caseStudy.subheadline`.
+Projects use thumbnail-triggered popup carousels; standalone case-study pages have been removed.
 
 The contact page adapts the theme layout with copy, email addresses, and project types in `src/data/contact.ts`. “Send inquiry” validates the required name, email, and message, then opens a prefilled email to `hello@3rdpersoncreative.com` with all four fields. Visitors must send it from their email app; no backend or delivery service is used. Direct email links remain available as a fallback.
 
 The thumbnail opens a responsive modal with previous/next image controls and arrow-key navigation. Escape, the close button, or clicking the backdrop closes it and restores focus to the card.
+
+## SEO and Apache hosting
+
+Production metadata uses `https://www.3rdpersoncreative.com`. Build without `--base` for the production domain root. Canonical links, social metadata, and Organization JSON-LD share this configured origin.
+
+Astro generates `sitemap-index.xml` and `sitemap-0.xml` during builds; legacy demo blog routes are excluded. `robots.txt` allows crawling and points to the sitemap. Excluding blog pages from the sitemap does not prevent indexing them.
+
+`public/.htaccess` is copied into the build output. On Apache, it redirects HTTP and non-www requests for 3rdpersoncreative.com to HTTPS with www, preserving paths and queries. It does not redirect bobconlon.com preview traffic. Upload the hidden `.htaccess` file along with the other output files; the host must support `mod_rewrite` and allow `.htaccess` rules. Astro dev and Cloudflare hosting do not execute Apache rules.
+
+For the bobconlon.com preview, robots directives must be managed in that domain's root `robots.txt`; a file under `/3rd-person/` is not a domain-level robots policy. To generate preview-origin metadata and sitemaps, use `npm run build -- --base=/3rd-person/ --site=https://www.bobconlon.com`.
 
 ## Development and builds
 
