@@ -14,10 +14,7 @@ export default defineConfig({
   site: 'https://www.3rdpersoncreative.com',
   integrations: [
     mdx(),
-    sitemap({
-      // Legacy demo blog pages are not part of the portfolio sitemap.
-      filter: (page) => !new URL(page).pathname.split('/').includes('blog'),
-    }),
+    sitemap(),
     {
       name: 'separate-vite-caches',
       hooks: {
