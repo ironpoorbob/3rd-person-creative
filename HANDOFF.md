@@ -2,6 +2,8 @@
 
 ## Current checkpoint
 
+Homepage renders the shared Callout after Hero using `layout: quotes` and the user's light background. `src/content/pages/home.md` contains the Kendra Gillette and Tracy Doren testimonials as `props.quotes` (quote, name, role, organization). Callout defaults to its existing standard headline/link layout, preserving About; the schema validates both shapes. QuoteCarousel provides subtle side chevrons, wraparound, focused arrow-key controls, stable height, hidden-slide accessibility state, and reduced-motion support; no autoplay. Root build and built-site Chrome checks at 1440, 768, 375, 320px passed; desktop/phone screenshots reviewed. Dev server was unreachable during verification.
+
 Latest content updates: Sara uses `src/assets/img/people/SARA_Headshot.jpg` with alt text “Portrait of Sara Gorr”; the production build verified the optimized image. All ten demo blog entries have been removed; `.gitkeep` retains `src/content/blog/` for future posts. The collection schema remains ready for Markdown/MDX entries.
 
 Reviewed November 5, 2026, after merge commit `6ebec7c` (PR #8, SEO updates). The working tree was clean before this handoff refresh. Always recheck Git: this is a checkpoint, not live state. This document describes the current implementation; earlier experiments are available in Git history.
@@ -22,7 +24,7 @@ There are exactly four HTML routes: `/`, `/about/`, `/projects/`, and `/contact/
 
 | Area | Current implementation |
 | --- | --- |
-| Home | `src/pages/index.astro` renders the photographic Hero, shared Navbar and Footer. `src/components/home/Hero.astro` uses `3rdpc_Landing.jpg`, a mobile image, and the foreground SVG logo. SelectedWorks and Approach are not rendered. |
+| Home | `src/pages/index.astro` renders the photographic Hero followed by the shared Callout, with shared Navbar and Footer. `src/components/home/Hero.astro` uses `3rdpc_Landing.jpg`, a mobile image, and the foreground SVG logo. SelectedWorks and Approach are not rendered. |
 | About | `src/content/pages/about.md` supplies ordered `sections`: pageIntro, services, process, people, callout. `src/pages/about.astro` switches on `type` and passes nested `props`. `src/content.config.ts` validates content. |
 | Projects | `src/data/projects.ts` holds all five projects, thumbnail assets, supplied copy, and ordered `teaser.images`. Components live under `src/components/projects/`; preview styles are in `src/styles/project-teaser.css`. |
 | Contact | `src/data/contact.ts` holds copy, project types, and real email contacts. `src/pages/contact.astro` uses the adapted contact components and `src/styles/contact.css`. |

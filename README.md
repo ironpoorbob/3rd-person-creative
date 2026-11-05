@@ -55,6 +55,10 @@ The global footer copy and Instagram link are configured in `src/data/footer.ts`
 
 Brand fonts (Manrope and DM Sans) are self-hosted as WOFF2 in `public/fonts/`, alongside their OFL licenses. Original TTF sources are retained in `src/assets/fonts/source/` and are not published as public assets.
 
+## Homepage testimonials
+
+`src/content/pages/home.md` controls the callout below the homepage hero. Use `layout: quotes` with a `quotes` array; each item has `quote`, `name`, `role`, and `organization`. The carousel inherits the callout's `colorMode`, uses manual side arrows and keyboard navigation, and does not autoplay. About keeps the standard callout layout: omit `layout` (or set `standard`) and provide the usual headline/link fields.
+
 ## Project previews
 
 Project cards and teasers use `src/data/projects.ts`. Each project can supply `teaser.subheadline`, `teaser.description`, and an ordered `teaser.images` array of imported assets and alt text. The card thumbnail (`image`) is separate; previews without gallery images fall back to it. Every popup includes a “Let's Talk” link to `/contact/`, using the configured base path. Cards open previews without a separate link, and the portfolio filter row is omitted.
