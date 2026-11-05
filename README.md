@@ -69,7 +69,7 @@ The thumbnail opens a responsive modal with previous/next image controls and arr
 
 Production metadata uses `https://www.3rdpersoncreative.com`. Build without `--base` for the production domain root. Canonical links, social metadata, and Organization JSON-LD share this configured origin.
 
-Astro generates `sitemap-index.xml` and `sitemap-0.xml` during builds. `robots.txt` allows crawling and points to the sitemap. Blog routes have been removed, so demo posts are not published. Blog components, layout, and source content remain available for future work; restore routes only when real posts are ready.
+Astro generates `sitemap-index.xml` and `sitemap-0.xml` during builds. `robots.txt` allows crawling and points to the sitemap. Blog routes have been removed, so demo posts are not published. Blog components and layout remain available for future work. Demo entries have been deleted; `src/content/blog/.gitkeep` preserves the empty folder. Restore routes only when real posts are ready.
 
 `public/.htaccess` is copied into the build output. On Apache, it redirects HTTP and non-www requests for 3rdpersoncreative.com to HTTPS with www, preserving paths and queries. It does not redirect bobconlon.com preview traffic. Upload the hidden `.htaccess` file along with the other output files; the host must support `mod_rewrite` and allow `.htaccess` rules. Astro dev and Cloudflare hosting do not execute Apache rules.
 

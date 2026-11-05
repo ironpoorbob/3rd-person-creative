@@ -1,157 +1,113 @@
 # Codex handoff — 3rd Person Creative
 
-## Snapshot
+## Current checkpoint
 
-Removed the blog index and dynamic post routes so demo posts no longer build or ship to production. Blog source content, layout, and components remain for future use. Removed the redundant sitemap blog filter and stale RSS discovery link. Normal production build verified exactly four HTML pages (Home, About, Contact, Projects), matching www-root sitemap URLs, and no blog output. Delete any previously uploaded blog/ directory from the host when deploying. Build-path preference clarification below supersedes earlier claims of a standing no-base preference.
+Latest content updates: Sara uses `src/assets/img/people/SARA_Headshot.jpg` with alt text “Portrait of Sara Gorr”; the production build verified the optimized image. All ten demo blog entries have been removed; `.gitkeep` retains `src/content/blog/` for future posts. The collection schema remains ready for Markdown/MDX entries.
 
-Canonical host correction: user wants https://www.3rdpersoncreative.com (with www). Updated Astro site config and .htaccess to redirect HTTP/non-www production requests to HTTPS/www, retaining path/query and leaving preview hosts alone. Normal root build passed; verified www in generated HTML metadata, sitemap, robots reference, and copied .htaccess. This supersedes previous non-www notes. Apache runtime redirects still require verification on the host.
+Reviewed November 5, 2026, after merge commit `6ebec7c` (PR #8, SEO updates). The working tree was clean before this handoff refresh. Always recheck Git: this is a checkpoint, not live state. This document describes the current implementation; earlier experiments are available in Git history.
 
-Build validation: use a normal npm run build to inspect production output for https://www.3rdpersoncreative.com at the domain root. The user requested this to verify production sitemap and URL paths, not to establish a blanket preference against base-path builds. Subfolder builds remain supported for preview testing when relevant. Production output belongs in dist/client/.
+Read `AGENTS.md` and the project-specific portion of `README.md` before changing code. This is an Astro portfolio/contact site adapted from the 3dinterior theme, not a React app. The designer's main mock is for About, not Home. Local references live in ignored `design-reference/`; they may be absent on a fresh checkout.
 
-Removed both standalone case-study routes at user request; portfolio now uses thumbnails and popup carousels only. Deleted unused HeroCarousel and CaseStudyLink components, plus caseStudy/caseStudyHref data. ProjectTeaser and all five project galleries remain unchanged. Subfolder build passed; verified both routes absent, five dialogs retained, and four sitemap URLs (home, about, contact, projects). Remove old case-study directories from the host when uploading over a previous deployment.
+## User preferences
 
-Removed the legacy Privacy and Terms page routes at user request; their theme components remain for later adaptation. Removed stale links from the unused ProjectsFooter component. Subfolder build passed; neither route exists in output, and the generated sitemap now contains six portfolio/site URLs. When deploying over an existing upload, remove old privacy/ and terms/ output folders from the host as well.
+- Work in small increments matching the requested section; preserve concurrent edits.
+- The user handles staging, commits, and PRs. Supply grouped whole-file `git add` commands, commit messages, and bullets only when requested. Keep commit commands separate from staging commands. Do not execute Git mutations without explicit authorization.
+- Both production-root and client-preview subfolder deployments are required. A request to inspect production output without `--base` was not a standing restriction against preview builds.
+- Keep content data driven, use shared brand styles, and verify layout in a browser when changing visuals.
+- Do not restore theme demo pages or standalone case studies without a request.
 
-Added Apache deployment redirects in public/.htaccess, production-host scoped to HTTPS/non-www 3rdpersoncreative.com; preview hosts are unaffected. Installed @astrojs/sitemap, excluding demo blog routes, and added prerendered robots.txt plus sitemap discovery in the main head. Root and /3rd-person/ builds passed; verified eight sitemap URLs, robots sitemap references, and copied hidden .htaccess. Apache redirect execution still needs verification on the actual host. README documents deployment, root-only robots behavior, and preview --site override. Sitemap exclusion alone does not noindex legacy blog pages.
+## Published pages and source map
 
-SEO: confirmed final domain is https://3rdpersoncreative.com and updated Astro site configuration. Both head layouts now include shared Organization JSON-LD (name, description, URL, SVG logo, email, Instagram), canonical/OG URLs, absolute sharing-image URLs, site name, and Twitter title/description. Corrected Portfolio title and description. Subfolder build passed; parsed all 19 generated pages to verify JSON-LD, final-domain canonicals, matching OG URLs, and emitted local image/logo assets. Existing remote blog image overrides remain. Preview builds retain their base in metadata URLs; root production builds should omit --base.
+There are exactly four HTML routes: `/`, `/about/`, `/projects/`, and `/contact/`.
 
-Contact form now opens a prefilled mailto draft on “Send inquiry” (user approved this approach). Name, email, and message are required; project type is optional. Subject/body are URI-encoded, including all fields, and form values remain intact. Button is enabled with brand styling and a note explaining that visitors must send from their email app. No service/backend or automatic delivery. Subfolder build passed; Chrome checks at 1440, 768, 375, 320px verified required/email validation, special-character encoding, recipient, optional-type fallback, preserved inputs, and no overflow. Email launching was intercepted for verification; no message was sent and external mail-client behavior was not tested.
+| Area | Current implementation |
+| --- | --- |
+| Home | `src/pages/index.astro` renders the photographic Hero, shared Navbar and Footer. `src/components/home/Hero.astro` uses `3rdpc_Landing.jpg`, a mobile image, and the foreground SVG logo. SelectedWorks and Approach are not rendered. |
+| About | `src/content/pages/about.md` supplies ordered `sections`: pageIntro, services, process, people, callout. `src/pages/about.astro` switches on `type` and passes nested `props`. `src/content.config.ts` validates content. |
+| Projects | `src/data/projects.ts` holds all five projects, thumbnail assets, supplied copy, and ordered `teaser.images`. Components live under `src/components/projects/`; preview styles are in `src/styles/project-teaser.css`. |
+| Contact | `src/data/contact.ts` holds copy, project types, and real email contacts. `src/pages/contact.astro` uses the adapted contact components and `src/styles/contact.css`. |
+| Navigation | `src/components/shared/Navbar.astro` uses `3rd-person-nav-logo-blk.svg` and base-aware Projects, About, and Let's talk (`/contact/`) links. Desktop/mobile share link data. |
+| Footer | Shared Footer uses `src/data/footer.ts`: copyright, Instagram, and tagline. Year updates at build time. |
 
-All five project popups now show “Let's Talk” linking to `/contact/`, replacing conditional case-study CTAs. Both case-study pages remain available at their existing URLs. Adapted the theme contact page using ContactHero, ContactForm, ContactDirect, and SocialLinks, with brand fonts/colors and real email addresses; removed demo address/map/newsletter from the page. Content lives in `src/data/contact.ts`. User requested layout only: inquiry fields are present but the send button is disabled with a visible explanation; direct mailto links work. No form backend or email-draft behavior is connected. Subfolder build passed; all five CTA paths verified; live Chrome checks and desktop/phone screenshot review passed at 1440, 768, 375, 320px (labels, disabled send, no overflow).
+### Projects
 
-Portfolio cleanup: removed card-level “View case study” links and their overlay CSS, plus the filter row and its divider from `projects.astro`. Case-study links remain inside the popups. The unused ProjectFilters component remains available. Subfolder build passed (19 pages); Chrome checks at 1440, 768, 375, and 320px verified five cards, no overflow, and retained popup links. Desktop/phone screenshots reviewed.
+Five galleries: Place Branding (5 images), Packaging (2), Identity (5), Event Branding (2), Illustration (4). Thumbnails and gallery arrays are independent. The grid has no filter row or card-level case-study links. Load More appears only above nine projects; further pagination work is deferred.
 
-Added a second case-study layout at `/projects/identity/making-brands-unmistakable/`. Place Branding remains unchanged. Identity uses the shared project title/copy and five-image gallery, with a placeholder `caseStudy.subheadline`. New reusable `HeroCarousel.astro` displays uncropped images in a stable hero frame, with previous/next controls, live count, wraparound, and focused arrow-key navigation; no autoplay. Both card and popup links are enabled. Subfolder build passed (19 pages); Chrome verified loaded slides, cycling, keyboard controls, and no overflow at 1440, 768, 375, and 320px; desktop/phone screenshots reviewed.
+`ProjectTeaser.astro` opens a native dialog from each card. It supports previous/next, arrow keys, Escape, close/backdrop click, scroll lock, and focus restoration. Every popup has a Let's Talk link to Contact. SVG gallery images use ordinary `img` elements to avoid an Astro dev image-decoding issue; raster assets use Astro Image.
 
-Added the Place Branding case study at `/projects/place-branding/giving-places-a-personality/`, linked from its project card and popup via `caseStudyHref`. The page shares the project title, thumbnail hero, teaser copy, and four remaining gallery images from `src/data/projects.ts`; `caseStudy.subheadline` contains the requested placeholder. Uses shared navigation/footer, brand fonts/colors, responsive uncropped images, and base-aware back links. Subfolder build passed (18 pages); both generated project links resolve to the built page. Live Chrome checks at 1440, 768, 375, and 320px confirmed all five images load and no horizontal overflow; desktop/phone screenshots reviewed. The general URL checker still has outdated homepage navigation assertions from before the user removed those links.
+Both standalone case-study routes were removed, along with HeroCarousel, CaseStudyLink, and caseStudy/caseStudyHref fields. Keep the popup/carousel approach.
 
-Case-study links now use optional top-level `caseStudyHref` in project data. Shared `CaseStudyLink.astro` renders “View case study” with a right arrow under the card category and right-aligned above the popup description. The card link sits above the preview trigger so it navigates independently. User chose `/projects/<category>/<product-name>` as the URL pattern. Specific product destinations/pages are still pending, so links remain conditional. Temporary preview verified both link placements and matching destinations at desktop/mobile widths; preview route removed afterward.
+### Contact behavior
 
-Portfolio data now includes Packaging (2 gallery images), Identity (5), Event Branding (2), and Illustration (4), following Place Branding (5). Copy supplied by the user lives in `src/data/projects.ts`; each card has a separate thumbnail and gallery array. Illustration uses title “Bringing Ideas to Life” and category “ILLUSTRATION”. User edits to earlier titles and thumbnails were preserved. Missing dates/locations/subheadlines are optional rather than fabricated. Each gallery passed build and live Chrome image/cycling/overflow checks at 1440, 768, 375, and 320px. Two legacy theme entries remain after Illustration; full-project URLs are still pending.
+Send inquiry validates required name, email, and message; project type is optional. It opens a URI-encoded mailto draft to `hello@3rdpersoncreative.com` containing all fields. The visitor must send it from their email app. There is no backend, form service, or automatic email delivery. Fields remain populated, and direct email links provide a fallback. The form is enabled, not a disabled mock.
 
-Place Branding gallery now explicitly lists five images from `src/assets/img/projects/place-branding/`: Berkeley logo, banners, truck, Mesa identity, and Mesa sign. The card thumbnail stays separate. Gallery order and alt text live in `teaser.images` in `src/data/projects.ts`; other project arrays can be edited independently. Build passed and live Chrome checks at 1440, 768, 375, 320px verified five loaded images, carousel counts/wrapping, and no modal overflow.
+### About and styling
 
-Added project teaser modals to the Projects grid. Existing user-edited project entries moved intact into `src/data/projects.ts`; Place Branding adds the user's supplied subheadline/description plus its PNG and DBA SVG gallery assets. `ProjectTeaser.astro` wraps cards with a keyboard-accessible trigger and native modal dialog; gallery controls/arrow keys, Escape, close/backdrop click, scroll lock and focus restoration are implemented. CSS is in `src/styles/project-teaser.css`. Optional `teaser.href` renders a base-aware full-project link; the actual destination has not been supplied, so no dead link is shown. Other theme cards fall back to their existing metadata/image. Build passed; live browser checks at 1440, 768, 375, 320px passed for image loading, gallery controls, close/focus, Escape, and overflow. SVGs load directly to avoid a dev image-service decoding error.
+Repeat items use `props.subsections`; rendering uses an explicit switch to preserve TypeScript narrowing. A shared generic section renderer was discussed but deferred. Legacy About types remain registered, but the current content does not select them.
 
-Brand fonts migrated to WOFF2: converted the existing Manrope 400/700/800 and DM Sans 400/700 TTFs using FontTools (temporary /tmp environment, no project dependency). Preserved original TTFs in `src/assets/fonts/source/`, served WOFF2s and existing OFL licenses in `public/fonts/`, and updated BrandFonts. Total size reduced from 382,068 to 128,784 bytes (66.3%). Glyph order, character maps, and horizontal metrics checked against originals. Subfolder build and URL checks passed.
+People shows one current portrait each for Matthew Jervis and Sara Gorr, with email links. The schema permits one or two photos and optional validated email. Earlier childhood pictures are not rendered.
 
-People now shows only the current portrait for Matthew and Sara. Content validation allows one or two photos per profile; single portraits use a narrower desktop column and a 240px maximum on mobile. Earlier photos remain in assets but are no longer referenced by About content.
+Use `.site-content` (or Container size="brand") for shared content alignment: 1380px maximum, 91% width, and 20px gutters at 450px and below. Full-width section backgrounds use `colorMode`: white, light (cream), orange, or dark. See `src/types/section.ts`, `src/styles/section-colors.css`, and the tokens in `src/styles/global.css`.
 
-Mobile Navbar now has a working disclosure menu using an Astro-bundled custom element. It shares desktop links, exposes expanded state, swaps menu/close icons, closes on Escape (restoring toggle focus), outside click, link activation, focus leaving the header, and desktop resizing. Dropdown can scroll on short screens. Build/base-path checks passed; live Chrome interaction checks at 375 and 320px passed for open, Escape, outside click, link activation, and overflow. Existing homepage fragment destinations remain unchanged.
+Brand headings use Manrope; body uses DM Sans. Local WOFF2 files and licenses are in `public/fonts/`, registered by BrandFonts. Source TTFs remain in `src/assets/fonts/source/`. Some retained theme components use Inter. Preserve explicit SVG sizing, especially arrows. The mobile nav uses three lines with the middle disappearing when opened; the outer lines form an X.
 
-Replaced the shared Studio Alpha footer with the comp’s minimal 3rd Person Creative footer: copyright left, Instagram arrow/link and tagline right, cream background, shared margins. Copy/link configuration lives in `src/data/footer.ts`; year is generated at build time. Applies to all pages using Footer. Mobile stacks below 601px. Subfolder build/URL checks and Chrome checks at 1440, 768, 375, 320px passed, including font loading, no overflow, and keyboard focus.
+## Production and preview builds
 
-Added `PeopleSection.astro` and looped `PersonProfile.astro` between Process and Callout, removing the legacy `team` entry from About content. Profiles use `props.subsections` with name, role, biography, and exactly two image/alt pairs. The four reference photos were copied into tracked `src/assets/img/people/`; content uses relative paths validated with Astro's `image()` helper and rendered through `Image`. Shared margins and four color modes apply (light default). Profiles show paired photos beside text on desktop, above text at 750px and below. Build and URL checks passed; browser checks at 1440, 768, 375, and 320px confirmed two people, four loaded photos, expected responsive layout, and no overflow. Desktop/mobile screenshots reviewed. Dev server was unreachable during this check.
+Node 22.12+ and npm are required. On this laptop Node 22 is available at `/Users/m4laptop/.nvm/versions/node/v22.23.3/bin`; don't hardcode that path in project scripts.
 
-Added `ServicesSection.astro` and looped `ServiceColumn.astro`. About's `services` entry replaces statsRibbon and philosophyHistory directly after PageIntro; legacy components remain registered. All copy and both seven-item service lists come from `props.subsections`, validated in the content schema. Uses shared margins, fonts, four color modes (light default), and a single-column layout at 800px and below. PageIntro now targets `#services`. Other sections retain their order. Build and base-path URL checks passed; Chrome verified 14 list items, loaded fonts, 2/1 columns, and no overflow at 1440, 768, 375, and 320px. Dev server was unreachable during verification.
+Production origin is **https://www.3rdpersoncreative.com** (HTTPS with www).
 
-Content alignment now uses global `.site-content`, exposed to existing theme components through `Container size="brand"`. Navbar, PageIntro, Process, Callout, About stats/philosophy/team, and Footer share equal left/right margins. Browser checks on the built About page confirmed all eight containers align at 1440, 768, 375, and 320px with no horizontal overflow. Subfolder build and URL checks passed.
+```bash
+npm run build
+```
 
-Navbar now uses its own inner wrapper matching PageIntro: `min(1380px, 91%)`, switching to 20px side gutters below 451px. This aligns the wordmark with intro content on all pages using the shared nav; border remains unchanged. Build passed and browser measurements confirmed matching left edges at 1440, 768, 375, and 320px.
+Production output is `dist/client/`. Upload its contents, including hidden `.htaccess`, to the domain root.
 
-Added pure-white section mode alongside the existing cream `light`, `orange`, and `dark` modes. `src/types/section.ts` exports the shared `colorModes` tuple, derived `ColorMode` type, and `SectionColorProps` interface. PageIntro, ProcessSection, and Callout extend that interface; content validation imports the same tuple. Existing mode defaults and About content choices are preserved. Subfolder build and URL checks passed; Chrome verified all four background palettes on all three components at 1440, 768, 375, and 320px without horizontal overflow.
+Client preview:
 
-PageIntro spacing follow-up: top padding now includes clearance for the fixed 80px navbar plus 44px (42px on mobile); a full-width 13px brand-orange bottom border matches the comp. Build and Chrome responsive checks with the navbar included passed at 1440, 768, 375, and 320px.
+```bash
+npm run build -- --base=/3rd-person/ --site=https://www.bobconlon.com
+```
 
-Added `src/components/shared/PageIntro.astro` for the comp's opening About section. `pageIntro` replaces `aboutHero` in About content; the legacy component remains registered. Copy, headline line break/italic ending, service sequence, link, ID, and color mode are data driven through nested props. Desktop has two summary columns and a bottom metadata/link row; at 700px and below these stack. Uses shared brand tokens and section palettes, light by default. The CTA temporarily points to `#process` because the comp's Services section is not implemented. Other theme sections remain unchanged.
+Preview output is `dist/client/3rd-person/`; upload its contents to the host's `/3rd-person/` folder. `--base` handles path prefixes; `--site` handles the origin for metadata/sitemaps. A production-output check must use the normal root build, not a preview build.
 
-PageIntro verification: `/3rd-person/` build and URL checks passed (17 pages). Headless Chrome checks at 1440, 768, 375, and 320px confirmed loaded fonts, expected two/one columns, and no horizontal overflow; desktop and 320px screenshots were visually reviewed. No dev server was reachable at `https://localhost:4321`, so live dev rendering was not verified.
+Keep `withBase()` from `src/utils/paths.ts` on unprefixed root-relative navigation and public assets. Imported assets are handled by Astro. Do not prefix already-prefixed URLs. BaseHead is unrelated to this helper.
 
-Callout and process now support optional `props.colorMode` values `orange`, `light`, and `dark`. The schema validates the enum, and shared CSS palettes adapt text and divider colors, including process item copy. Defaults preserve the original appearance (orange callout, light process); About content shows these choices explicitly. Shared palettes live in `src/styles/section-colors.css`.
+## SEO and deployment
 
-The About renderer now switches on `section.type` before passing `section.props` to a specific component. This preserves TypeScript discriminated-union narrowing and fixes the dynamic-component props error. An exhaustive `never` branch catches section types missing from the renderer. Rendering order is still driven entirely by the content array.
+- `src/consts.ts` defines the branded default title and description derived from About copy.
+- Active pages use `src/layouts/Layout.astro` for head metadata. `src/components/BaseHead.astro` is retained for BlogLayout but no published route currently uses it. Both contain canonical, Open Graph/Twitter, and shared OrganizationSchema metadata.
+- `src/components/shared/OrganizationSchema.astro` includes name, description, website, SVG logo, email, and Instagram. Values derive from shared site/contact/footer data.
+- The default sharing image is `3rdpc_Landing.jpg`, generated with `getImage` as a 1200px JPG. Its hashed name can change; verify the exact metadata URL against `dist/client/_astro/` rather than expecting a fixed filename. Passing the raw imported image URL previously failed to emit the JPG asset.
+- `@astrojs/sitemap` generates `sitemap-index.xml` and `sitemap-0.xml`. `src/pages/robots.txt.ts` generates robots.txt with a sitemap reference. The sitemap currently has the four published routes.
+- `public/.htaccess` redirects production HTTP/non-www requests to HTTPS/www, preserving path/query. It only matches the production hosts and leaves bobconlon.com previews alone. Apache must support mod_rewrite and .htaccess overrides; Astro dev and Cloudflare do not execute these rules.
+- robots.txt is a domain-root policy. A file inside `/3rd-person/` does not control preview crawling; that belongs to bobconlon.com's root robots.txt.
+- Blog, Privacy, Terms, and standalone case-study routes are removed from the build, not just filtered out of the sitemap. Supporting blog/legal components remain for future use; demo blog entries have been deleted and src/content/blog/.gitkeep preserves the empty folder. The stale RSS discovery link was removed.
+- If deploying over older uploads, remove old `blog/`, `privacy/`, `terms/`, and the two old case-study directories from the host. Uploading new files alone does not remove stale remote pages.
 
-The process item list is now named `props.subsections` (formerly `props.steps`), matching the user's preferred terminology. The outer page `sections` chooses components; the nested process `props.subsections` supplies its numbered items. Component names and rendered layout are unchanged.
+## Verification and remaining follow-ups
 
-Section content now lives under a nested `props` object beside `type` in `about.md`. Both the schema and About renderer use `{ type, props }`. Process steps are under `props.subsections`; anchor IDs are under `props.id`. Legacy theme sections can omit `props`, which defaults to an empty object.
+Last application verification (before this docs-only refresh): normal production build passed, generated exactly four HTML pages, and produced four matching HTTPS/www root sitemap URLs. Confirmed robots sitemap reference, emitted sharing-image asset, and copied .htaccess. No blog, legal, or case-study output remained.
 
-Nested-props verification: the `/3rd-person/` build and generated URL checks passed; the existing callout copy, five process steps, and section order were confirmed in the output. No dev server was reachable at `https://localhost:4321` during this check, so live dev rendering was not verified for this migration.
+Earlier browser checks at 1440, 768, 375, and 320px covered project dialogs/galleries, mobile navigation, contact layout, and form validation/URI encoding. Mailto launching was intercepted during automated checks; the user subsequently confirmed it worked. No test email was sent by the assistant. Temporary scripts/screenshots lived in `/tmp`; do not assume they survive a restart. Use actual viewport emulation for narrow Chrome checks; `--window-size` alone may not produce a 320px CSS viewport.
 
-About now renders an ordered `sections` array from `src/content/pages/about.md`. Each entry's `type` selects a component in the page renderer. All six current section types are validated by a discriminated union in `src/content.config.ts`; section order and inclusion are controlled by data. The old theme sections are registered but retain hardcoded copy internally. The initial order and rendered content were preserved.
+Known follow-ups:
 
-Verification for the sections migration: subfolder build and URL checks passed. The existing dev process initially retained the old content shape (`sections` was undefined); a forced dev restart loaded the new schema. The refreshed About route returned 200 with all six sections in order and five process steps. The replacement dev process runs in the background; inspect current Astro status rather than relying on a saved PID.
+- Apache redirects need verification on the actual hosting environment. No deployment is implied by a successful local build.
+- `scripts/check-build-paths.mjs` is stale: its navigation assertions still expect the removed blog route and Approach/Services/People homepage links. Update those assertions before relying on its full result. Earlier historical passes do not establish that the current checker passes.
+- Legacy unrendered theme components retain demo copy/alt text; several image imports now point to the landing photograph as a placeholder. Review before reusing them.
+- Consolidating Layout and BaseHead metadata, a generic section renderer, and a committed unit/E2E suite were discussed but are not implemented or currently requested.
 
-Latest update: the user reports the original PR merged, local rebased, and dev server running. Shared brand color/font tokens are now defined in `src/styles/global.css` and used by Navbar, Callout, ProcessSection, and ProcessStep. Existing theme colors and Inter typography remain for sections not yet redesigned. WOFF2 migration is now complete; see the latest snapshot.
+## Dev-server recovery and resume checklist
 
-Recorded after commit `a54dfba` (`Updates readme for 3rd Person Creative notes`). The working tree was clean before adding this handoff and `AGENTS.md`. Recheck Git for subsequent work; these notes do not establish the current PR, deployment, or server status.
+Dev uses HTTPS through the existing SSL plugin. Check the actual running server/status before starting another; don't assume a saved PID or localhost URL is current.
 
-The user is adapting an Astro portfolio theme with a designer. The site should showcase the group's work and let visitors get in touch. The user has grouped the work into commits for one PR and manages staging/committing themselves.
+Keep the separate Vite caches (`.vite-dev` and `.vite-build`) in astro.config.mjs. A shared cache previously caused live-server 500s after builds. Content-schema changes have also required dev restarts. Diagnose these separately rather than deleting page sections or blindly excluding astro:content from optimization. Keep the narrowly scoped MDX directive warning filter.
 
-## Design references and decisions
+On resume:
 
-- Local mock: `design-reference/index.html`, with supporting images under `design-reference/assets/`. The entire directory is ignored by Git.
-- Important correction: this main mock represents the **About page**. The homepage keeps its separate photographic hero.
-- Later screenshot corrections take priority over the original mock, particularly for the desktop nav.
-- Font and color conventions are in `AGENTS.md`. The original theme is still visible in sections not yet adapted.
-
-## Implemented
-
-### Homepage
-
-`src/components/home/Hero.astro` uses `3rdpc_Landing.jpg` on desktop and `3rdpc_Landing_mobile.jpg` below 768px through a picture source. The foreground uses `3rdpc_Landing_LOGO_crop.svg`.
-
-The desktop logo was reduced by 30% to a maximum width of 29.4rem and aligned 40px from the right edge. Mobile remains centered. The former headline, supporting text, buttons, and scroll indicator were removed.
-
-### Shared navbar
-
-`src/components/shared/Navbar.astro` replaced the theme's header icon and Architects label with the text wordmark **3rd person creative.** All page imports were migrated from the old home component.
-
-Desktop links: Approach, Services, People, Instagram, and Let's talk. Instagram links to the group's profile; Let's talk opens email to `hello@3rdpersoncreative.com`. The Inquire button was removed.
-
-The latest arrow refinement uses 14px SVG boxes, a 0.8 stroke, and small arrowheads (`M4 20 20 4M15 4h5v5`). Each link has one arrow. Avoid returning to uppercase, widely spaced links, heavy glyph arrows, or an outlined contact pill.
-
-### Data-driven About components
-
-- `src/components/shared/Callout.astro`: orange section with optional eyebrow, headline, optional subheadline, and underlined link. Props include `linkText`, `href`, and optional `id`.
-- `src/components/shared/ProcessSection.astro`: section eyebrow and headline, plus a loop rendering `ProcessStep.astro` for each item.
-- `src/components/shared/ProcessStep.astro`: top border, number, headline, and subheadline. Uses an ordered list item within the process section.
-- All copy lives in `src/content/pages/about.md`, validated by the `pages` collection in `src/content.config.ts`.
-- The process headline uses a YAML multiline string; `white-space: pre-line` preserves its intended break without storing HTML.
-- Process grid: five columns from 1024px, two from 451–1023px, one at 450px and below. Add/reorder items in the `props.subsections` array of a `type: process` section rather than hardcoding markup.
-- The old hardcoded `AboutCTA.astro` wrapper was deleted. About renders the reusable components directly from content.
-- `BrandFonts.astro` centralizes local Manrope and DM Sans declarations in both page head layouts. Font licenses are stored alongside the font files.
-
-At this snapshot, About renders the original AboutHero, StatsRibbon, PhilosophyHistory, and TeamSection, followed by the new process and callout sections. The user briefly removed the old sections while diagnosing an error, then restored them. Preserve the actual current page rather than assuming either state from old conversation history.
-
-### Infrastructure
-
-- Optional base path through Astro's `--base` flag, with root default. Remaining internal links and public asset URLs were updated.
-- Favicon PNG, SVG, ICO, and Apple touch icon are linked through shared `Favicons.astro`. The unused web manifest and its two icons were removed.
-- Public font declarations are generated inline with base-aware URLs to avoid Vite's unresolved-font warnings. Preloads use the same URLs.
-- `scripts/check-build-paths.mjs` validates generated page URLs, asset files, and section navigation paths.
-- README now leads with 3rd Person Creative information; theme documentation and credits remain below a divider.
-
-## Known issues and remaining adaptations
-
-- **Nav section destinations need revisiting.** Approach, Services, and People still point to homepage fragments (`/#approach`, `/#services`, `/#people`). Only the homepage Approach section currently has the corresponding ID. The About-page clarification came later; do not assume those links are already wired to the final About design.
-- Mobile menu behavior is implemented; navigation destinations still need the review noted above.
-- About's other sections, site/page titles, footer content, and metadata still include theme placeholders such as Studio Alpha and Architects.
-- `astro.config.mjs` still has the original theme's `site` domain. The preview path is configured through the build flag; canonical/social metadata will need a deliberate domain update before final publishing.
-- The broader About redesign and portfolio content are not complete. Continue section by section as directed; do not replace the entire theme automatically.
-
-## Dev-server 500 incident and resolution
-
-The live server referenced missing `node_modules/.vite/deps_ssr/astro_content_runtime.js` after verification builds. Dev and build shared an optimizer cache. An Astro config integration now sets separate `node_modules/.vite-dev/` and `.vite-build/` caches using the Astro command.
-
-A restart was also needed because the old dev process still had a content configuration without the new About entry. After restarting, About returned HTTP 200. A build was run while dev stayed active, then About was requested again and still returned 200.
-
-If this recurs, inspect the actual error, process, and cache paths first. Do not remove page sections or blindly add `astro:content` to optimizer exclusions. A content-entry error and a missing optimized dependency are different failures.
-
-## Verification already performed
-
-- Root and `/3rd-person/` builds were exercised during base-path setup.
-- Latest process-component build passed with `/3rd-person/`; the generated URL checker passed across 17 pages.
-- Process was checked in headless Chrome at 1440, 768, 375, and 320px: correct 5/2/1 columns, all five steps present, fonts loaded, no horizontal overflow.
-- Callout was checked at desktop/tablet and actual 375/320px mobile viewports, including keyboard focus and wrapping.
-- The live About page returned 200 and contained the new process section and five steps after the last component update.
-- Browser preview scripts/screenshots were temporary files under `/tmp`, not committed tests. Do not depend on them surviving a reboot.
-- On this Mac, Chrome's `--window-size=375,...` alone produced a 500px CSS viewport. Actual narrow-screen verification used CDP `Emulation.setDeviceMetricsOverride`; check `innerWidth` when testing mobile.
-
-## Resume checklist
-
-1. Read `AGENTS.md`, inspect Git status, and check the user's latest request.
-2. Locate the ignored mock if the task needs it; inspect the target page and content entries.
-3. Check the running dev server before starting another. Use Node 22.12+.
-4. Keep component content in the page entry and preserve existing sections unless the user asks to replace them.
-5. Verify the rendered result and update this document after a meaningful milestone. Leave Git staging/commits to the user unless requested.
+1. Read AGENTS.md, this handoff, and the project-specific README.
+2. Check `git status --short` and recent commits; preserve any user edits.
+3. Confirm the current request and deployment target before choosing build flags.
+4. Inspect source and the actual dev server; do not rely on temporary artifacts or old state.
+5. Make the requested change, verify appropriately, and update this current-state handoff without appending contradictory historical snapshots.
