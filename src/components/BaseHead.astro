@@ -2,6 +2,7 @@
 import { withBase } from '../utils/paths';
 import Favicons from './shared/Favicons.astro';
 import BrandFonts from './shared/BrandFonts.astro';
+import OrganizationSchema from './shared/OrganizationSchema.astro';
 import '../styles/global.css';
 import type { ImageMetadata } from 'astro';
 import FallbackImage from '../assets/img/3rdpc_Landing.jpg';
@@ -33,7 +34,7 @@ const {
 // Get image URL for OG tags
 const sharingImage = typeof image === 'string' ? withBase(image) : (await getImage({ src: image, width: 1200, format: 'jpg' })).src;
 const getImageUrl = () => {
-  return sharingImage;
+  return new URL(sharingImage, Astro.site).href;
 };
 ---
 
@@ -42,6 +43,7 @@ const getImageUrl = () => {
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <Favicons />
 <BrandFonts />
+<OrganizationSchema />
 <link rel="sitemap" href={withBase('/sitemap-index.xml')} />
 <link
   rel="alternate"
@@ -62,13 +64,16 @@ const getImageUrl = () => {
 
 <!-- Open Graph / Facebook -->
 <meta property="og:type" content={type} />
-<meta property="og:url" content={Astro.url} />
+<meta property="og:site_name" content={SITE_TITLE} />
+<meta property="og:url" content={canonicalURL} />
 <meta property="og:title" content={title} />
 <meta property="og:description" content={description} />
 <meta property="og:image" content={getImageUrl()} />
 
 <!-- Twitter -->
 <meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
 <meta name="twitter:image" content={getImageUrl()} />
 
 <!-- Article Specific Meta -->

@@ -1,0 +1,20 @@
+---
+import { SITE_TITLE, SITE_DESCRIPTION } from '../../consts';
+import { contact } from '../../data/contact';
+import { footer } from '../../data/footer';
+import logo from '../../assets/img/3rd-person-nav-logo-blk.svg?url';
+import { withBase } from '../../utils/paths';
+
+const organization = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: SITE_TITLE,
+  url: new URL(withBase('/'), Astro.site).href,
+  logo: new URL(logo, Astro.site).href,
+  description: SITE_DESCRIPTION,
+  email: contact.email,
+  sameAs: [footer.socialLink.href],
+};
+const json = JSON.stringify(organization).replace(/</g, '\\u003c');
+---
+<script type="application/ld+json" set:html={json} />

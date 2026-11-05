@@ -7,12 +7,17 @@ import typography from '@tailwindcss/typography';
 import Icons from 'unplugin-icons/vite';
 import basicSsl from '@vitejs/plugin-basic-ssl';
 import cloudflare from '@astrojs/cloudflare';
+import sitemap from '@astrojs/sitemap';
 
 export default defineConfig({
   base: '/', // Override with: npm run build -- --base=/designer-preview/
-  site: 'https://3dinterior.mail-nearmelab.workers.dev/', // Add this line
+  site: 'https://www.3rdpersoncreative.com',
   integrations: [
     mdx(),
+    sitemap({
+      // Legacy demo blog pages are not part of the portfolio sitemap.
+      filter: (page) => !new URL(page).pathname.split('/').includes('blog'),
+    }),
     {
       name: 'separate-vite-caches',
       hooks: {
