@@ -3,6 +3,8 @@ import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
 import { withBase } from '../utils/paths';
 import Favicons from '../components/shared/Favicons.astro';
 import BrandFonts from '../components/shared/BrandFonts.astro';
+import socialImage from '../assets/img/3rdpc_Landing.jpg';
+import { getImage } from 'astro:assets';
 import '../styles/global.css';
 
 export interface Props {
@@ -11,6 +13,7 @@ export interface Props {
 }
 
 const { title = SITE_TITLE, description = SITE_DESCRIPTION } = Astro.props;
+const sharingImage = await getImage({ src: socialImage, width: 1200, format: 'jpg' });
 
 const fonts = [400, 500, 600, 700, 900].map(weight => ({
   weight,
@@ -36,6 +39,12 @@ const fontFaces = fonts.map(({ weight, url }) => `
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{title}</title>
     <meta name="description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={sharingImage.src} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content={sharingImage.src} />
     <Favicons />
     <BrandFonts />
     
