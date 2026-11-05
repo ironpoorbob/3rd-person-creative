@@ -1,0 +1,8 @@
+# Apache deployment: canonical production origin is HTTPS with www.
+# Only match our production hosts, leaving bobconlon.com previews alone.
+RewriteEngine On
+
+RewriteCond %{HTTP_HOST} ^(?:www\.)?3rdpersoncreative\.com(?::\d+)?$ [NC]
+RewriteCond %{HTTPS} !=on [OR]
+RewriteCond %{HTTP_HOST} ^3rdpersoncreative\.com(?::\d+)?$ [NC]
+RewriteRule ^ https://www.3rdpersoncreative.com%{REQUEST_URI} [R=301,L,NE]
