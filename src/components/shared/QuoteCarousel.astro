@@ -1,0 +1,85 @@
+---
+export interface Quote { quote: string; name: string; role: string; organization: string; }
+interface Props { quotes: Quote[]; }
+const { quotes } = Astro.props;
+---
+<quote-carousel role="region" aria-roledescription="carousel" aria-label="Client testimonials">
+  <div class="quote-slides" aria-live="polite" aria-atomic="true">
+    {quotes.map((quote, index) => (
+      <figure class:list={['quote-slide', { active: index === 0 }]} inert={index !== 0} aria-hidden={index !== 0} role="group" aria-roledescription="slide" aria-label={`${index + 1} of ${quotes.length}`}>
+        <blockquote>“{quote.quote}”</blockquote>
+        <figcaption>
+          <strong>{quote.name}</strong>
+          <span>{quote.role}, {quote.organization}</span>
+        </figcaption>
+      </figure>
+    ))}
+  </div>
+  {quotes.length > 1 && <>
+    <button class="quote-arrow previous" type="button" data-direction="-1" aria-label="Previous testimonial">
+      <svg width="24" height="48" viewBox="0 0 24 48" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><path d="M19 6 5 24l14 18" /></svg>
+    </button>
+    <button class="quote-arrow next" type="button" data-direction="1" aria-label="Next testimonial">
+      <svg width="24" height="48" viewBox="0 0 24 48" fill="none" stroke="currentColor" stroke-width="1.2" aria-hidden="true"><path d="m5 6 14 18L5 42" /></svg>
+    </button>
+  </>}
+</quote-carousel>
+<script>
+  class QuoteCarousel extends HTMLElement {
+    private cleanup?: () => void;
+    connectedCallback() {
+      const controller = new AbortController();
+      const { signal } = controller;
+      const slides = [...this.querySelectorAll<HTMLElement>('.quote-slide')];
+      let current = 0;
+      const show = (index: number) => {
+        current = (index + slides.length) % slides.length;
+        slides.forEach((slide, i) => {
+          slide.classList.toggle('active', i === current);
+          slide.inert = i !== current;
+          slide.setAttribute('aria-hidden', String(i !== current));
+        });
+      };
+      this.querySelectorAll<HTMLButtonElement>('[data-direction]').forEach(button => {
+        button.addEventListener('click', () => show(current + Number(button.dataset.direction)), { signal });
+      });
+      this.addEventListener('keydown', event => {
+        if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') {
+          event.preventDefault();
+          show(current + (event.key === 'ArrowRight' ? 1 : -1));
+        }
+      }, { signal });
+      this.cleanup = () => controller.abort();
+    }
+    disconnectedCallback() { this.cleanup?.(); }
+  }
+  if (!customElements.get('quote-carousel')) customElements.define('quote-carousel', QuoteCarousel);
+</script>
+<style>
+  quote-carousel { position: relative; display: block; }
+  .quote-slides { display: grid; width: min(1100px, calc(100% - 128px)); margin-inline: auto; }
+  .quote-slide { grid-area: 1 / 1; align-self: center; margin: 0; text-align: center; visibility: hidden; opacity: 0; transition: opacity 220ms ease; }
+  .quote-slide.active { visibility: visible; opacity: 1; }
+  blockquote { margin: 0; font: 400 clamp(24px, 2.8vw, 40px)/1.45 var(--font-heading); letter-spacing: -.035em; overflow-wrap: break-word; }
+  figcaption { margin-top: 32px; font-size: 16px; line-height: 1.6; }
+  figcaption strong, figcaption span { display: block; }
+  figcaption span { color: var(--section-muted); }
+  .quote-arrow { position: absolute; top: 50%; transform: translateY(-50%); display: grid; place-items: center; width: 48px; height: 64px; border: 0; background: transparent; color: var(--section-text); opacity: .55; cursor: pointer; }
+  .quote-arrow svg { width: 24px; height: 48px; flex: 0 0 24px; }
+  .previous { left: 6px; }
+  .next { right: 6px; }
+  .quote-arrow:hover, .quote-arrow:focus-visible { opacity: 1; }
+  .quote-arrow:focus-visible { outline: 2px solid currentColor; outline-offset: 2px; }
+  @media (min-width: 1024px) {
+    blockquote { font-size: clamp(24px, 2.5vw, 36px); }
+  }
+  @media (max-width: 600px) {
+    .quote-slides { width: calc(100% - 88px); }
+    blockquote { font-size: clamp(20px, 4.5vw, 26px); }
+    figcaption { font-size: 14px; margin-top: 24px; }
+    .quote-arrow { width: 40px; }
+    .previous { left: 0; } .next { right: 0; }
+    .quote-arrow svg { width: 18px; height: 36px; }
+  }
+  @media (prefers-reduced-motion: reduce) { .quote-slide { transition: none; } }
+</style>
