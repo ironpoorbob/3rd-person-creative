@@ -4,12 +4,13 @@ import type { ImageMetadata } from 'astro';
 
 export interface Props {
   name: string;
+  email?: string;
   role: string;
   biography: string;
   photos: { src: ImageMetadata; alt: string }[];
 }
 
-const { name, role, biography, photos } = Astro.props;
+const { name, email, role, biography, photos } = Astro.props;
 ---
 
 <article class:list={["person-profile", { "single-portrait": photos.length === 1 }]}>
@@ -20,6 +21,7 @@ const { name, role, biography, photos } = Astro.props;
     <h3>{name}</h3>
     <p class="person-role">{role}</p>
     <p class="person-bio">{biography}</p>
+    {email && <a class="person-email" href={`mailto:${email}`}>{email}</a>}
   </div>
 </article>
 
@@ -50,6 +52,18 @@ const { name, role, biography, photos } = Astro.props;
   h3 { margin: 0 0 9px; font: 700 clamp(24px, 2.5vw, 34px)/1.1 var(--font-heading); letter-spacing: -.055em; }
   .person-role { margin: 0 0 14px; font-size: 13px; line-height: 1.6; letter-spacing: .14em; text-transform: uppercase; color: var(--section-muted, var(--color-brand-muted)); }
   .person-bio { margin: 0; font-size: 16px; line-height: 1.65; }
+  .person-email {
+    display: inline-block;
+    max-width: 100%;
+    margin-top: 16px;
+    color: inherit;
+    font-size: 16px;
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+    text-decoration: underline;
+    text-underline-offset: 4px;
+  }
+  .person-email:focus-visible { outline: 2px solid currentColor; outline-offset: 4px; }
   @media (max-width: 750px) {
     .person-profile, .person-profile.single-portrait { grid-template-columns: minmax(0, 1fr); gap: 18px; padding-bottom: 25px; }
     .person-photos { max-width: 420px; }

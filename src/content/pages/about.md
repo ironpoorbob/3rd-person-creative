@@ -84,12 +84,14 @@ sections:
         Big perspective.
       subsections:
         - name: "Matthew Jervis"
+          email: "matthew@3rdpersoncreative.com"
           role: "Brand strategy & creative direction"
           biography: "Designer, strategist, and creative thinker working across branding, marketing, and experience design. Matthew connects big-picture thinking with practical, distinctive design."
           photos:
             - src: "../../assets/img/people/matthew.webp"
               alt: "Matthew Jervis seated thoughtfully in glasses and a scarf"
         - name: "Sara Gorr"
+          email: "sara@3rdpersoncreative.com"
           role: "Wine strategy & brand alignment"
           biography: "Wine-industry professional with experience in business development, distributor relationships, and trade engagement. Sara combines market insight and professional coaching to help brands grow from the inside out."
           photos:

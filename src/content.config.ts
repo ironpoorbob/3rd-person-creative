@@ -58,6 +58,7 @@ const pages = defineCollection({
           id: z.string().optional(),
           subsections: z.array(z.object({
             name: z.string().min(1),
+            email: z.string().email().optional(),
             role: z.string().min(1),
             biography: z.string().min(1),
             photos: z.array(z.object({
