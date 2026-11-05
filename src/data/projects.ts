@@ -4,7 +4,7 @@ import placeBrandingTruck from '../assets/img/projects/place-branding/place _bra
 import placeBrandingMesaIdentity from '../assets/img/projects/place-branding/place _branding_IMAGES_03.jpg';
 import placeBrandingMesaSign from '../assets/img/projects/place-branding/place _branding_IMAGES_04.jpg';
 import placeBrandingBanners from '../assets/img/projects/place-branding/identity_IMAGES_01a.jpg';
-export interface Project { title: string; category: string; location?: string; year?: string; caseStudyHref?: string; caseStudy?: { subheadline: string }; image: ImageMetadata; alt: string; teaser?: { subheadline?: string; description: string; images?: {src: ImageMetadata; alt: string}[] } }
+export interface Project { title: string; category: string; location?: string; year?: string; image: ImageMetadata; alt: string; teaser?: { subheadline?: string; description: string; images?: {src: ImageMetadata; alt: string}[] } }
 import packagingImage1 from '../assets/img/projects/packaging/packaging_IMAGES_01.jpg';
 import packagingImage2 from '../assets/img/projects/packaging/packaging_IMAGES_02.jpg';
 import identityImage1 from '../assets/img/projects/identity/Identity_IMAGES_01.jpg';
@@ -23,8 +23,6 @@ export const projects: Project[] = [
   {
     title: "Giving Places a Personality",
     category: "Place Branding",
-    caseStudyHref: "/projects/place-branding/giving-places-a-personality/",
-    caseStudy: { subheadline: "Placeholder subheadline — final copy to come." },
     image: placeBrandingBanners,
     alt: "Downtown Berkeley place branding",
     teaser: {
@@ -55,8 +53,6 @@ export const projects: Project[] = [
   {
     title: "Making Brands Unmistakable",
     category: "Identity",
-    caseStudyHref: "/projects/identity/making-brands-unmistakable/",
-    caseStudy: { subheadline: "Placeholder subheadline — final copy to come." },
     image: identityImage3,
     alt: "Bird Snapper feather symbol and non-alcoholic cocktail logo",
     teaser: {
