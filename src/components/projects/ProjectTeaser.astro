@@ -7,7 +7,7 @@ import '../../styles/project-teaser.css';
 interface Props { project: Project; id: string; }
 const { project, id } = Astro.props;
 const subheadline = project.teaser ? project.teaser.subheadline : [project.category, project.location, project.year].filter(Boolean).join(" · ");
-const images = project.teaser?.images?.length ? project.teaser.images : [{src: project.image, alt: project.alt}];
+const images: NonNullable<NonNullable<Project['teaser']>['images']> = project.teaser?.images?.length ? project.teaser.images : [{src: project.image, alt: project.alt}];
 ---
 <project-teaser>
   <div class="teaser-card">
@@ -25,6 +25,12 @@ const images = project.teaser?.images?.length ? project.teaser.images : [{src: p
             {image.src.format === 'svg'
               ? <img src={image.src.src} alt={image.alt} width={image.src.width} height={image.src.height} loading="lazy" />
               : <Image src={image.src} alt={image.alt} widths={[480, 800, 1200]} sizes="(max-width: 800px) 90vw, 800px" loading="lazy" />}
+            {(image.caption?.trim() || image.href?.trim()) && <figcaption class="teaser-caption">
+              {image.caption?.trim() && <span>{image.caption.trim()}</span>}
+              {image.href?.trim() && <a class="teaser-site-link" href={withBase(image.href.trim())} target="_blank" rel="noopener noreferrer" aria-label={`Visit website: ${image.caption?.trim() || image.alt} (opens in a new tab)`}>
+                Visit website <span aria-hidden="true">↗</span>
+              </a>}
+            </figcaption>}
           </figure>
         ))}
       </div>

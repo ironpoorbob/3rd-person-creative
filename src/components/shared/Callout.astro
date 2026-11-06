@@ -1,8 +1,11 @@
 ---
 import type { SectionColorProps } from '../../types/section';
+import QuoteCarousel from './QuoteCarousel.astro';
+import type { Quote } from './QuoteCarousel.astro';
 import { withBase } from '../../utils/paths';
 
-export interface Props extends SectionColorProps {
+interface StandardCallout {
+  layout?: 'standard';
   eyebrow?: string;
   headline: string;
   subheadline?: string;
@@ -11,21 +14,23 @@ export interface Props extends SectionColorProps {
   id?: string;
 }
 
-const { eyebrow, headline, subheadline, linkText, href, id, colorMode = 'orange' } = Astro.props;
+export type Props = SectionColorProps & { id?: string } & (StandardCallout | { layout: 'quotes'; quotes: Quote[] });
+const props = Astro.props;
+const { id, colorMode = 'orange' } = props;
 ---
 
-<section class="callout brand-section" data-color-mode={colorMode} id={id} aria-label={headline}>
-  <div class="site-content callout-inner">
-    {eyebrow && <p class="callout-eyebrow">{eyebrow}</p>}
-    <h2>{headline}</h2>
-    {subheadline && <p class="callout-subheadline">{subheadline}</p>}
-    <a class="callout-link" href={withBase(href)}>
-      <span>{linkText}</span>
+<section class="callout brand-section" data-color-mode={colorMode} id={id} aria-label={props.layout === 'quotes' ? 'Client testimonials' : props.headline}>
+  {props.layout === 'quotes' ? <QuoteCarousel quotes={props.quotes} /> : <div class="site-content callout-inner">
+    {props.eyebrow && <p class="callout-eyebrow">{props.eyebrow}</p>}
+    <h2>{props.headline}</h2>
+    {props.subheadline && <p class="callout-subheadline">{props.subheadline}</p>}
+    <a class="callout-link" href={withBase(props.href)}>
+      <span>{props.linkText}</span>
       <svg width="18" height="18" style="flex: 0 0 18px; width: 18px; height: 18px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" aria-hidden="true" focusable="false">
         <path d="M4 20 20 4M15 4h5v5" />
       </svg>
     </a>
-  </div>
+  </div>}
 </section>
 
 <style>

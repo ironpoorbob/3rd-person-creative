@@ -92,11 +92,11 @@ sections:
               alt: "Matthew Jervis seated thoughtfully in glasses and a scarf"
         - name: "Sara Gorr"
           email: "sara@3rdpersoncreative.com"
-          role: "Wine strategy & brand alignment"
+          role: "Wine sales & consulting"
           biography: "Wine-industry professional with experience in business development, distributor relationships, and trade engagement. Sara combines market insight and professional coaching to help brands grow from the inside out."
           photos:
-            - src: "../../assets/img/people/sara.webp"
-              alt: "Sara Gorr at a wine bar wearing glasses and a textured white jacket"
+            - src: "../../assets/img/people/SARA_Headshot.jpg"
+              alt: "Portrait of Sara Gorr"
   - type: callout
     props:
       colorMode: orange
@@ -104,5 +104,5 @@ sections:
       headline: "Your Story, Our Mission."
       subheadline: "New idea. Growing business. Fresh perspective. Let's talk."
       linkText: "Start a conversation"
-      href: "mailto:hello@3rdpersoncreative.com?subject=Let's%20talk"
+      href: "/contact/"
 ---

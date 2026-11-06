@@ -4,9 +4,10 @@ import placeBrandingTruck from '../assets/img/projects/place-branding/place _bra
 import placeBrandingMesaIdentity from '../assets/img/projects/place-branding/place _branding_IMAGES_03.jpg';
 import placeBrandingMesaSign from '../assets/img/projects/place-branding/place _branding_IMAGES_04.jpg';
 import placeBrandingBanners from '../assets/img/projects/place-branding/identity_IMAGES_01a.jpg';
-export interface Project { title: string; category: string; location?: string; year?: string; image: ImageMetadata; alt: string; teaser?: { subheadline?: string; description: string; images?: {src: ImageMetadata; alt: string}[] } }
-import packagingImage1 from '../assets/img/projects/packaging/packaging_IMAGES_01.jpg';
+export interface Project { title: string; category: string; location?: string; year?: string; image: ImageMetadata; alt: string; teaser?: { subheadline?: string; description: string; images?: {src: ImageMetadata; alt: string; caption?: string; href?: string}[] } }
 import packagingImage2 from '../assets/img/projects/packaging/packaging_IMAGES_02.jpg';
+import packagingImage3 from '../assets/img/projects/packaging/Packaging_IMAGES_03.jpg';
+import packagingImage4 from '../assets/img/projects/packaging/Packaging_IMAGES_04.jpg';
 import identityImage1 from '../assets/img/projects/identity/Identity_IMAGES_01.jpg';
 import identityImage2 from '../assets/img/projects/identity/Identity_IMAGES_02.jpg';
 import identityImage3 from '../assets/img/projects/identity/Identity_IMAGES_03.jpg';
@@ -18,6 +19,17 @@ import illustrationImage1 from '../assets/img/projects/illustration/Illustration
 import illustrationImage2 from '../assets/img/projects/illustration/Illustration_IMAGES_02.jpg';
 import illustrationImage3 from '../assets/img/projects/illustration/Illustration_IMAGES_03.jpg';
 import illustrationImage4 from '../assets/img/projects/illustration/Illustration_IMAGES_04.jpg';
+import digitalHomepage from '../assets/img/projects/digital/ggg-homepage.png';
+import digitalLogo from '../assets/img/projects/digital/ggg-logo.jpg';
+import digitalCalendar from '../assets/img/projects/digital/ggg-calendar-square.png';
+import digitalEvent from '../assets/img/projects/digital/ggg-event-modal.png';
+import gggProfile from '../assets/img/projects/digital/ggg-profile.jpg';
+import bawwHomepageLight from '../assets/img/projects/digital/baww-homepage-light.jpg';
+import bawwHomepageDark from '../assets/img/projects/digital/baww-homepage-dark.jpg';
+import bawwAbout from '../assets/img/projects/digital/baww-about.png';
+import bawwSponsors from '../assets/img/projects/digital/baww-sponsors.jpg';
+import bawwHomeCloseUp from '../assets/img/projects/digital/baww-homepage-cu.jpg';
+import bawwSponsorsCloseUp from '../assets/img/projects/digital/baww-sponsors-cu.jpg';
 
 export const projects: Project[] = [
   {
@@ -45,8 +57,10 @@ export const projects: Project[] = [
     teaser: {
       description: "Great packaging is more than a pretty label. It's where brand strategy, storytelling, and design come together to create something memorable. From bold, playful identities to packaging rooted in a sense of place, we create designs that capture a brand's personality, connect with its audience, and stand out on the shelf.",
       images: [
-        { src: packagingImage1, alt: "Orange, blue, and green canned cocktail packaging" },
         { src: packagingImage2, alt: "Doc Fogarty's Mountain Cherry and Skyline Kiwi beverage cans" },
+        { src: packagingImage3, alt: "Bird Snapper margarita, mojito, and dark and stormy non-alcoholic cocktail cans" },
+        { src: packagingImage4, alt: "Jean Marc Gilet Vouvray Sec and Brut wine bottles with close-ups of their labels" },
+        { src: illustrationImage3, alt: "Cabernet Voltaire wine label and bottle with illustrated figures" },
       ],
     }
   },
@@ -93,5 +107,24 @@ export const projects: Project[] = [
         { src: illustrationImage4, alt: "Black-and-white illustrations of food, wine, and table settings" },
       ],
     }
+  },
+  {
+    title: "Digital Experiences",
+    category: "Digital",
+    image: digitalLogo,
+    alt: "Gotta Getta Gig logo",
+    teaser: {
+      description: "From web applications that connect artists with venues and bookers to platforms that empower women in the wine industry, we create digital experiences around the people who use them. We bring strategy, design, and development together to solve real needs, build connections, and help businesses grow.",
+      images: [
+        { src: bawwHomeCloseUp, alt: "Badass Women in Wine homepage", caption: "Badass Women In Wine - homepage", href: "https://www.badasswomeninwine.org/" },
+        { src: bawwAbout, alt: "Badass Women in Wine About page with a group photograph and community history", caption: "Badass Women In Wine - about page", href: "https://www.badasswomeninwine.org/" },
+        { src: bawwSponsorsCloseUp, alt: "Badass Women in Wine Sponsors page displaying supporting organizations", caption: "Badass Women In Wine - sponsors page", href: "https://www.badasswomeninwine.org/" },
+        { src: bawwHomepageDark, alt: "Badass Women in Wine homepage in dark mode", caption: "Badass Women In Wine - homepage - dark mode", href: "https://www.badasswomeninwine.org/" },
+        { src: digitalHomepage, alt: "Gotta Getta Gig homepage with sign-up and login options", caption: "Gotta Getta Gig - homepage/landing page", href: "https://www.gottagettagig.com/" },
+        { src: gggProfile, alt: "Gotta Getta Gig artist profile page", caption: "Gotta Getta Gig - artist profile page", href: "https://www.gottagettagig.com/" },
+        { src: digitalCalendar, alt: "Gotta Getta Gig venue dashboard with booking calendar and date availability", caption: "Gotta Getta Gig - calendar/dashboard page", href: "https://www.gottagettagig.com/" },
+        { src: digitalEvent, alt: "Gotta Getta Gig event details showing an artist lineup and concert poster", caption: "Gotta Getta Gig - event modal", href: "https://www.gottagettagig.com/" },
+      ],
+    },
   }
 ];

@@ -55,9 +55,13 @@ The global footer copy and Instagram link are configured in `src/data/footer.ts`
 
 Brand fonts (Manrope and DM Sans) are self-hosted as WOFF2 in `public/fonts/`, alongside their OFL licenses. Original TTF sources are retained in `src/assets/fonts/source/` and are not published as public assets.
 
+## Homepage testimonials
+
+`src/content/pages/home.md` controls the callout below the homepage hero. Use `layout: quotes` with a `quotes` array; each item has `quote`, `name`, `role`, and `organization`. The carousel inherits the callout's `colorMode`, uses manual side arrows and keyboard navigation, and does not autoplay. About keeps the standard callout layout: omit `layout` (or set `standard`) and provide the usual headline/link fields.
+
 ## Project previews
 
-Project cards and teasers use `src/data/projects.ts`. Each project can supply `teaser.subheadline`, `teaser.description`, and an ordered `teaser.images` array of imported assets and alt text. The card thumbnail (`image`) is separate; previews without gallery images fall back to it. Every popup includes a “Let's Talk” link to `/contact/`, using the configured base path. Cards open previews without a separate link, and the portfolio filter row is omitted.
+Project cards and teasers use `src/data/projects.ts`. Each project can supply `teaser.subheadline`, `teaser.description`, and an ordered `teaser.images` array of imported assets and alt text. Each image may also have a `caption`; nonblank captions appear below that image, while omitted, empty, or whitespace-only captions produce no caption element. Add optional `href` to an image for a right-aligned “Visit website” link opening in a new tab. The caption/link row is omitted when both fields are blank. The card thumbnail (`image`) is separate; previews without gallery images fall back to it. Every popup includes a “Let's Talk” link to `/contact/`, using the configured base path. Cards open previews without a separate link, and the portfolio filter row is omitted.
 
 Projects use thumbnail-triggered popup carousels; standalone case-study pages have been removed.
 
@@ -69,7 +73,7 @@ The thumbnail opens a responsive modal with previous/next image controls and arr
 
 Production metadata uses `https://www.3rdpersoncreative.com`. Build without `--base` for the production domain root. Canonical links, social metadata, and Organization JSON-LD share this configured origin.
 
-Astro generates `sitemap-index.xml` and `sitemap-0.xml` during builds. `robots.txt` allows crawling and points to the sitemap. Blog routes have been removed, so demo posts are not published. Blog components, layout, and source content remain available for future work; restore routes only when real posts are ready.
+Astro generates `sitemap-index.xml` and `sitemap-0.xml` during builds. `robots.txt` allows crawling and points to the sitemap. Blog routes have been removed, so demo posts are not published. Blog components and layout remain available for future work. Demo entries have been deleted; `src/content/blog/.gitkeep` preserves the empty folder. Restore routes only when real posts are ready.
 
 `public/.htaccess` is copied into the build output. On Apache, it redirects HTTP and non-www requests for 3rdpersoncreative.com to HTTPS with www, preserving paths and queries. It does not redirect bobconlon.com preview traffic. Upload the hidden `.htaccess` file along with the other output files; the host must support `mod_rewrite` and allow `.htaccess` rules. Astro dev and Cloudflare hosting do not execute Apache rules.
 

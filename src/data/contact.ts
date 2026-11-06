@@ -7,5 +7,5 @@ export const contact = {
     { name: 'Matthew Jervis', email: 'matthew@3rdpersoncreative.com' },
     { name: 'Sara Gorr', email: 'sara@3rdpersoncreative.com' },
   ],
-  projectTypes: ['Brand strategy', 'Identity', 'Packaging', 'Place branding', 'Event branding', 'Illustration', 'Digital & web design', 'Wine strategy', 'Something else'],
+  projectTypes: ['Brand strategy', 'Identity', 'Packaging', 'Place branding', 'Event branding', 'Illustration', 'Digital & web design', 'Wine Wholesale', 'Wine Business Consulting', 'Wine Marketing', 'Something else'],
 };

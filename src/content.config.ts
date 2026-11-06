@@ -99,7 +99,8 @@ const pages = defineCollection({
       }).strict(),
       z.object({
         type: z.literal('callout'),
-        props: z.object({
+        props: z.union([z.object({
+          layout: z.literal('standard').optional(),
           colorMode: z.enum(colorModes).optional(),
           eyebrow: z.string().optional(),
           headline: z.string().min(1),
@@ -107,7 +108,17 @@ const pages = defineCollection({
           linkText: z.string().min(1),
           href: z.string().min(1),
           id: z.string().optional(),
-        }).strict(),
+        }).strict(), z.object({
+          layout: z.literal('quotes'),
+          colorMode: z.enum(colorModes).optional(),
+          id: z.string().optional(),
+          quotes: z.array(z.object({
+            quote: z.string().min(1),
+            name: z.string().min(1),
+            role: z.string().min(1),
+            organization: z.string().min(1),
+          }).strict()).min(1),
+        }).strict()]),
       }).strict(),
     ])),
   }),
