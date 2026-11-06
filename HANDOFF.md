@@ -26,14 +26,14 @@ There are exactly four HTML routes: `/`, `/about/`, `/projects/`, and `/contact/
 | --- | --- |
 | Home | `src/pages/index.astro` renders the photographic Hero followed by the shared Callout, with shared Navbar and Footer. `src/components/home/Hero.astro` uses `3rdpc_Landing.jpg`, a mobile image, and the foreground SVG logo. SelectedWorks and Approach are not rendered. |
 | About | `src/content/pages/about.md` supplies ordered `sections`: pageIntro, services, process, people, callout. `src/pages/about.astro` switches on `type` and passes nested `props`. `src/content.config.ts` validates content. |
-| Projects | `src/data/projects.ts` holds all five projects, thumbnail assets, supplied copy, and ordered `teaser.images`. Components live under `src/components/projects/`; preview styles are in `src/styles/project-teaser.css`. |
+| Projects | `src/data/projects.ts` holds all six projects, thumbnail assets, supplied copy, and ordered `teaser.images`. Components live under `src/components/projects/`; preview styles are in `src/styles/project-teaser.css`. |
 | Contact | `src/data/contact.ts` holds copy, project types, and real email contacts. `src/pages/contact.astro` uses the adapted contact components and `src/styles/contact.css`. |
 | Navigation | `src/components/shared/Navbar.astro` uses `3rd-person-nav-logo-blk.svg` and base-aware Projects, About, and Let's talk (`/contact/`) links. Desktop/mobile share link data. |
 | Footer | Shared Footer uses `src/data/footer.ts`: copyright, Instagram, and tagline. Year updates at build time. |
 
 ### Projects
 
-Five galleries: Place Branding (5 images), Packaging (2), Identity (5), Event Branding (2), Illustration (4). Thumbnails and gallery arrays are independent. The grid has no filter row or card-level case-study links. Load More appears only above nine projects; further pagination work is deferred.
+Six galleries: Place Branding (5 images), Packaging (4), Identity (5), Event Branding (2), Illustration (4), Digital (8). Digital Experiences uses `ggg-logo.jpg` as its card thumbnail. Its gallery contains four Badass Women in Wine screenshots followed by four Gotta Getta Gig screenshots, including the artist profile. Thumbnails (`image`) and gallery arrays (`teaser.images`) are independent. Optional per-image `caption` and `href` render below the image, with a right-aligned Visit website link opening in a new tab; blank fields produce no empty elements. Cards use a uniform 12:7 crop, and the Projects heading uses Manrope. The grid has no filter row or card-level case-study links. Load More appears only above nine projects; further pagination work is deferred. Root build and thumbnail checks at 1440, 768, 375, and 320px passed before the latest user-added artist profile image; that addition has not been reverified. Expanded image viewing was discussed but is not implemented.
 
 `ProjectTeaser.astro` opens a native dialog from each card. It supports previous/next, arrow keys, Escape, close/backdrop click, scroll lock, and focus restoration. Every popup has a Let's Talk link to Contact. SVG gallery images use ordinary `img` elements to avoid an Astro dev image-decoding issue; raster assets use Astro Image.
 

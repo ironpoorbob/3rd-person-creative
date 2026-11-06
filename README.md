@@ -61,7 +61,7 @@ Brand fonts (Manrope and DM Sans) are self-hosted as WOFF2 in `public/fonts/`, a
 
 ## Project previews
 
-Project cards and teasers use `src/data/projects.ts`. Each project can supply `teaser.subheadline`, `teaser.description`, and an ordered `teaser.images` array of imported assets and alt text. The card thumbnail (`image`) is separate; previews without gallery images fall back to it. Every popup includes a “Let's Talk” link to `/contact/`, using the configured base path. Cards open previews without a separate link, and the portfolio filter row is omitted.
+Project cards and teasers use `src/data/projects.ts`. Each project can supply `teaser.subheadline`, `teaser.description`, and an ordered `teaser.images` array of imported assets and alt text. Each image may also have a `caption`; nonblank captions appear below that image, while omitted, empty, or whitespace-only captions produce no caption element. Add optional `href` to an image for a right-aligned “Visit website” link opening in a new tab. The caption/link row is omitted when both fields are blank. The card thumbnail (`image`) is separate; previews without gallery images fall back to it. Every popup includes a “Let's Talk” link to `/contact/`, using the configured base path. Cards open previews without a separate link, and the portfolio filter row is omitted.
 
 Projects use thumbnail-triggered popup carousels; standalone case-study pages have been removed.
 
