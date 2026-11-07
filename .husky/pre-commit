@@ -1,0 +1,6 @@
+branch_name="$(git symbolic-ref --quiet --short HEAD 2>/dev/null || true)"
+
+if [ "$branch_name" = "main" ]; then
+  echo "Direct commits to main are blocked. Create or switch to a feature branch first."
+  exit 1
+fi
