@@ -63,11 +63,13 @@ Brand fonts (Manrope and DM Sans) are self-hosted as WOFF2 in `public/fonts/`, a
 
 Project cards and teasers use `src/data/projects.ts`. Each project can supply `teaser.subheadline`, `teaser.description`, and an ordered `teaser.images` array of imported assets and alt text. Each image may also have a `caption`; nonblank captions appear below that image, while omitted, empty, or whitespace-only captions produce no caption element. Add optional `href` to an image for a right-aligned “Visit website” link opening in a new tab. The caption/link row is omitted when both fields are blank. The card thumbnail (`image`) is separate; previews without gallery images fall back to it. Every popup includes a “Let's Talk” link to `/contact/`, using the configured base path. Cards open previews without a separate link, and the portfolio filter row is omitted.
 
+Add an optional `teaser.clients` array of client names to display a Clients list below the project description. Omitted or empty lists render no section.
+
 Projects use thumbnail-triggered popup carousels; standalone case-study pages have been removed.
 
 The contact page adapts the theme layout with copy, email addresses, and project types in `src/data/contact.ts`. “Send inquiry” validates the required name, email, and message, then opens a prefilled email to `hello@3rdpersoncreative.com` with all four fields. Visitors must send it from their email app; no backend or delivery service is used. Direct email links remain available as a fallback.
 
-The thumbnail opens a responsive modal with previous/next image controls and arrow-key navigation. Escape, the close button, or clicking the backdrop closes it and restores focus to the card.
+The thumbnail opens a responsive modal with previous/next image controls and arrow-key navigation. Escape, the close button, or clicking the backdrop closes it and restores focus to the card. Click an image or its magnifying-glass icon to switch the same dialog to an expanded dark image viewer. Zoom controls and touch pinch gestures enlarge the image up to 4× its fitted size; drag to pan. Previous/next controls browse the gallery and reset zoom for each image. Arrow keys browse, or pan when the zoomed image area has focus. The upper-right X or Escape returns to the current preview slide; Escape again closes the preview. Larger images (up to 2400px wide, without upscaling source files) load only when the expanded viewer is used.
 
 ## SEO and Apache hosting
 
@@ -78,6 +80,10 @@ Astro generates `sitemap-index.xml` and `sitemap-0.xml` during builds. `robots.t
 `public/.htaccess` is copied into the build output. On Apache, it redirects HTTP and non-www requests for 3rdpersoncreative.com to HTTPS with www, preserving paths and queries. It does not redirect bobconlon.com preview traffic. Upload the hidden `.htaccess` file along with the other output files; the host must support `mod_rewrite` and allow `.htaccess` rules. Astro dev and Cloudflare hosting do not execute Apache rules.
 
 For the bobconlon.com preview, robots directives must be managed in that domain's root `robots.txt`; a file under `/3rd-person/` is not a domain-level robots policy. To generate preview-origin metadata and sitemaps, use `npm run build -- --base=/3rd-person/ --site=https://www.bobconlon.com`.
+
+## Git commit guard
+
+Husky blocks direct commits on `main`. Create or switch to a feature branch and open a PR. `npm install` / `npm ci` activates the hooks through the `prepare` script; run `npm run prepare` to reactivate them in an existing checkout. The hook is `.husky/pre-commit`. It currently checks only the branch; linting and tests are not configured.
 
 ## Development and builds
 
