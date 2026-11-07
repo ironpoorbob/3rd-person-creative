@@ -4,7 +4,7 @@ import placeBrandingTruck from '../assets/img/projects/place-branding/place _bra
 import placeBrandingMesaIdentity from '../assets/img/projects/place-branding/place _branding_IMAGES_03.jpg';
 import placeBrandingMesaSign from '../assets/img/projects/place-branding/place _branding_IMAGES_04.jpg';
 import placeBrandingBanners from '../assets/img/projects/place-branding/identity_IMAGES_01a.jpg';
-export interface Project { title: string; category: string; location?: string; year?: string; image: ImageMetadata; alt: string; teaser?: { subheadline?: string; description: string; images?: {src: ImageMetadata; alt: string; caption?: string; href?: string}[] } }
+export interface Project { title: string; category: string; location?: string; year?: string; image: ImageMetadata; alt: string; teaser?: { subheadline?: string; description: string; clients?: string[]; images?: {src: ImageMetadata; alt: string; caption?: string; href?: string}[] } }
 import packagingImage2 from '../assets/img/projects/packaging/packaging_IMAGES_02.jpg';
 import packagingImage3 from '../assets/img/projects/packaging/Packaging_IMAGES_03.jpg';
 import packagingImage4 from '../assets/img/projects/packaging/Packaging_IMAGES_04.jpg';
@@ -40,6 +40,10 @@ export const projects: Project[] = [
     teaser: {
       subheadline: "Giving places a personality. And people a reason to connect.",
       description: "Every place has a story worth telling. We combine strategy, community insights, and creative storytelling to build distinctive identities that celebrate local character, inspire connection, and create a lasting sense of place. From downtown districts to vibrant destinations, we turn what makes a place unique into a brand people can see, feel, and experience.",
+      clients: [
+        "Downtown Berkeley Association",
+        "Downtown Mesa Association",
+      ],
       images: [
         { src: placeBrandingLogo, alt: "Downtown Berkeley logo with the tagline Journeys Start Here" },
         { src: placeBrandingBanners, alt: "Downtown Berkeley street banners featuring the place branding" },
@@ -56,6 +60,12 @@ export const projects: Project[] = [
     alt: "Doc Fogarty's can packaging",
     teaser: {
       description: "Great packaging is more than a pretty label. It's where brand strategy, storytelling, and design come together to create something memorable. From bold, playful identities to packaging rooted in a sense of place, we create designs that capture a brand's personality, connect with its audience, and stand out on the shelf.",
+      clients: [
+        "Avenelle Wine Company (Jean-Marc Gilet Vouvray)",
+        "Bird Snapper Beverages",
+        "Fogarty Winery",
+        "Folklore Napa (Private Label)",
+      ],
       images: [
         { src: packagingImage2, alt: "Doc Fogarty's Mountain Cherry and Skyline Kiwi beverage cans" },
         { src: packagingImage3, alt: "Bird Snapper margarita, mojito, and dark and stormy non-alcoholic cocktail cans" },
@@ -71,6 +81,13 @@ export const projects: Project[] = [
     alt: "Bird Snapper feather symbol and non-alcoholic cocktail logo",
     teaser: {
       description: "An effective identity is more than a logo. We combine strategy, storytelling, and thoughtful design to create distinctive visual marks that capture a brand's personality, communicate its purpose, and leave a lasting and memorable impression.",
+      clients: [
+        "Badass Women in Wine",
+        "Bird Snapper Beverages",
+        "Christina Deeb",
+        "Charlie Cart",
+        "Fogarty Winery",
+      ],
       images: [
         { src: identityImage1, alt: "Bird Snapper feather symbol and non-alcoholic cocktail logo" },
         { src: identityImage2, alt: "Badass Women in Wine logo designs" },
@@ -87,6 +104,10 @@ export const projects: Project[] = [
     alt: "Publishers Group West 50th anniversary poster and identity",
     teaser: {
       description: "From milestone celebrations to one-of-a-kind experiences, we bring events to life through distinctive visual identities, creative storytelling, and thoughtfully designed materials that set the tone and make a lasting impression.",
+      clients: [
+        "National Ability Center (Private Fundraising Dinner)",
+        "Publisher Group West (50th Anniversary)",
+      ],
       images: [
         { src: eventImage1, alt: "Publishers Group West 50th anniversary poster and identity" },
         { src: eventImage2, alt: "Record-inspired event invitations and Bald Eagle Mountain event poster" },
@@ -100,6 +121,12 @@ export const projects: Project[] = [
     alt: "Hand-drawn black-and-white illustrations of everyday objects, animals, and a restaurant sign",
     teaser: {
       description: "From playful characters to bold, expressive artwork, we create original illustrations that tell stories, spark curiosity, and give brands a distinctive visual voice. Whether whimsical or sophisticated, every illustration brings personality, imagination, and a little unexpected magic to the mix.",
+      clients: [
+        "Mark Beull",
+        "Charlie Cart",
+        "Folklore Napa",
+        "San Francisco Jewish Museum",
+      ],
       images: [
         { src: illustrationImage1, alt: "Hand-drawn black-and-white illustrations of everyday objects, animals, and a restaurant sign" },
         { src: illustrationImage2, alt: "Red illustrated characters in a Charlie Cart cooking comic" },
@@ -115,6 +142,10 @@ export const projects: Project[] = [
     alt: "Gotta Getta Gig logo",
     teaser: {
       description: "From web applications that connect artists with venues and bookers to platforms that empower women in the wine industry, we create digital experiences around the people who use them. We bring strategy, design, and development together to solve real needs, build connections, and help businesses grow.",
+      clients: [
+        "Badass Women In Wine",
+        "Gotta Getta Gig",
+      ],
       images: [
         { src: bawwHomeCloseUp, alt: "Badass Women in Wine homepage", caption: "Badass Women In Wine - homepage", href: "https://www.badasswomeninwine.org/" },
         { src: bawwAbout, alt: "Badass Women in Wine About page with a group photograph and community history", caption: "Badass Women In Wine - about page", href: "https://www.badasswomeninwine.org/" },

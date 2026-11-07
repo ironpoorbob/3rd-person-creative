@@ -1,13 +1,17 @@
 ---
-import { Image } from 'astro:assets';
+import { Image, getImage } from 'astro:assets';
 import type { Project } from '../../data/projects';
 import { withBase } from '../../utils/paths';
 import '../../styles/project-teaser.css';
 
 interface Props { project: Project; id: string; }
 const { project, id } = Astro.props;
+const clients = project.teaser?.clients?.map(client => client.trim()).filter(Boolean) ?? [];
 const subheadline = project.teaser ? project.teaser.subheadline : [project.category, project.location, project.year].filter(Boolean).join(" · ");
 const images: NonNullable<NonNullable<Project['teaser']>['images']> = project.teaser?.images?.length ? project.teaser.images : [{src: project.image, alt: project.alt}];
+const expandedImages = await Promise.all(images.map(async ({ src }) => src.format === 'svg'
+  ? src.src
+  : (await getImage({ src, width: Math.min(src.width, 2400), quality: 90 })).src));
 ---
 <project-teaser>
   <div class="teaser-card">
@@ -22,13 +26,18 @@ const images: NonNullable<NonNullable<Project['teaser']>['images']> = project.te
       <div class="teaser-gallery">
         {images.map((image, index) => (
           <figure hidden={index !== 0}>
+            <button type="button" class="teaser-expand" aria-label={`Enlarge image: ${image.alt}`} data-full-src={expandedImages[index]}>
             {image.src.format === 'svg'
               ? <img src={image.src.src} alt={image.alt} width={image.src.width} height={image.src.height} loading="lazy" />
               : <Image src={image.src} alt={image.alt} widths={[480, 800, 1200]} sizes="(max-width: 800px) 90vw, 800px" loading="lazy" />}
+              <span class="teaser-expand-hint" aria-hidden="true">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" focusable="false"><circle cx="10.5" cy="10.5" r="6.5" /><path d="m16 16 5 5M8 10.5h5m-2.5-2.5v5" /></svg>
+              </span>
+            </button>
             {(image.caption?.trim() || image.href?.trim()) && <figcaption class="teaser-caption">
               {image.caption?.trim() && <span>{image.caption.trim()}</span>}
               {image.href?.trim() && <a class="teaser-site-link" href={withBase(image.href.trim())} target="_blank" rel="noopener noreferrer" aria-label={`Visit website: ${image.caption?.trim() || image.alt} (opens in a new tab)`}>
-                Visit website <span aria-hidden="true">↗</span>
+                <span class="teaser-site-label-desktop">Visit website</span><span class="teaser-site-label-mobile">Website</span> <span aria-hidden="true">↗</span>
               </a>}
             </figcaption>}
           </figure>
@@ -44,10 +53,39 @@ const images: NonNullable<NonNullable<Project['teaser']>['images']> = project.te
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true" focusable="false"><path d="M4 12h16m-6-6 6 6-6 6" /></svg>
       </a></div>
       {project.teaser?.description && <p class="teaser-description">{project.teaser.description}</p>}
+      {clients.length > 0 && <section class="teaser-clients" aria-labelledby={`${id}-clients`}>
+        <h3 id={`${id}-clients`}>Clients</h3>
+        <ul role="list">{clients.map(client => <li>{client}</li>)}</ul>
+      </section>}
+    </div>
+    <div class="image-viewer" hidden>
+      <div class="image-viewer-toolbar">
+        <div class="image-viewer-zoom">
+          <button type="button" data-zoom="out" aria-label="Zoom out">−</button>
+          <button type="button" data-zoom="reset" aria-label="Reset image to fit">Fit</button>
+          <button type="button" data-zoom="in" aria-label="Zoom in">+</button>
+        </div>
+        <button type="button" class="image-viewer-back" aria-label="Close enlarged image and return to project">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" aria-hidden="true" focusable="false"><path d="m6 6 12 12M18 6 6 18" /></svg>
+        </button>
+      </div>
+      <div class="image-viewer-stage" tabindex="0" role="group" aria-label="Enlarged image. Use zoom buttons, then drag to pan or use arrow keys to pan. Use previous and next buttons to browse.">
+        <img class="image-viewer-image" alt="" draggable="false" />
+        <p class="image-viewer-status" role="status"></p>
+      </div>
+      <div class="image-viewer-footer">
+        <p class="image-viewer-caption"></p>
+        <div class="teaser-controls">
+          {images.length > 1 && <button type="button" data-direction="-1" aria-label="Previous image">←</button>}
+          <span class="image-viewer-count" aria-live="polite" aria-atomic="true"></span>
+          {images.length > 1 && <button type="button" data-direction="1" aria-label="Next image">→</button>}
+        </div>
+      </div>
     </div>
   </dialog>
 </project-teaser>
 <script>
+  import { setupImageViewer } from '../../scripts/image-viewer';
   class ProjectTeaser extends HTMLElement {
     private cleanup?: () => void;
     connectedCallback() {
@@ -59,10 +97,12 @@ const images: NonNullable<NonNullable<Project['teaser']>['images']> = project.te
       const count = this.querySelector('.teaser-count');
       let current = 0;
       let previousOverflow = '';
+      const viewer = setupImageViewer(dialog, slides, () => current, signal);
       const show = (index: number) => {
         current = (index + slides.length) % slides.length;
         slides.forEach((slide, i) => { slide.hidden = i !== current; });
         if (count) count.textContent = `${current + 1} / ${slides.length}`;
+        viewer.update();
       };
       trigger.addEventListener('click', () => {
         show(0);
@@ -74,8 +114,12 @@ const images: NonNullable<NonNullable<Project['teaser']>['images']> = project.te
       }, { signal });
       this.querySelector('.teaser-close')!.addEventListener('click', () => dialog.close(), { signal });
       dialog.addEventListener('close', () => {
+        viewer.close(false);
         document.body.style.overflow = previousOverflow;
         trigger.focus();
+      }, { signal });
+      dialog.addEventListener('cancel', event => {
+        if (viewer.isOpen()) { event.preventDefault(); viewer.close(); }
       }, { signal });
       let backdropDown = false;
       dialog.addEventListener('pointerdown', event => { backdropDown = event.target === dialog; }, { signal });
@@ -84,7 +128,7 @@ const images: NonNullable<NonNullable<Project['teaser']>['images']> = project.te
       dialog.addEventListener('keydown', event => {
         if (event.key === 'ArrowRight' || event.key === 'ArrowLeft') {
           event.preventDefault();
-          show(current + (event.key === 'ArrowRight' ? 1 : -1));
+          if (!viewer.panWithKey(event)) show(current + (event.key === 'ArrowRight' ? 1 : -1));
         }
       }, { signal });
       this.cleanup = () => {
