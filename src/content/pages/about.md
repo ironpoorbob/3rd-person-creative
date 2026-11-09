@@ -42,7 +42,7 @@ sections:
             - "Brand coaching & team alignment"
         - headline: "3rd Person WINE"
           tagline: "Industry insight / Brand / Growth"
-          description: "Our specialized wine, beverage, and hospitality practice."
+          description: "Sales and Consulting for Family Wineries"
           services:
             - "Winery Representation Wholesale Sales | Distributor Relations & Management"
             - "Trade/DTC Sales Alignment Strategy & Cross Marketing"
@@ -97,6 +97,7 @@ sections:
           photos:
             - src: "../../assets/img/people/SARA_Headshot.jpg"
               alt: "Portrait of Sara Gorr"
+              objectPosition: top
   - type: callout
     props:
       colorMode: orange
