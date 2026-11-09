@@ -7,7 +7,7 @@ export interface Props {
   email?: string;
   role: string;
   biography: string;
-  photos: { src: ImageMetadata; alt: string }[];
+  photos: { src: ImageMetadata; alt: string; objectPosition?: "top" | "center" | "bottom" }[];
 }
 
 const { name, email, role, biography, photos } = Astro.props;
@@ -15,7 +15,7 @@ const { name, email, role, biography, photos } = Astro.props;
 
 <article class:list={["person-profile", { "single-portrait": photos.length === 1 }]}>
   <div class="person-photos">
-    {photos.map(photo => <Image src={photo.src} alt={photo.alt} widths={[160, 320, 640]} sizes={photos.length === 1 ? "(max-width: 750px) 240px, 24vw" : "(max-width: 750px) 45vw, 16vw"} loading="lazy" format="webp" />)}
+    {photos.map(photo => <Image src={photo.src} alt={photo.alt} style={photo.objectPosition ? `object-position: ${photo.objectPosition}` : undefined} widths={[160, 320, 640]} sizes={photos.length === 1 ? "(max-width: 750px) 240px, 24vw" : "(max-width: 750px) 45vw, 16vw"} loading="lazy" format="webp" />)}
   </div>
   <div class="person-details">
     <h3>{name}</h3>
