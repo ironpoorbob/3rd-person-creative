@@ -147,7 +147,7 @@ export const projects: Project[] = [
         "Gotta Getta Gig",
       ],
       images: [
-        { src: bawwHomeCloseUp, alt: "Badass Women in Wine homepage", caption: "Badass Women In Wine - homepage", href: "https://www.badasswomeninwine.org/" },
+        { src: bawwHomepageLight, alt: "Badass Women in Wine homepage", caption: "Badass Women In Wine - homepage", href: "https://www.badasswomeninwine.org/" },
         { src: bawwAbout, alt: "Badass Women in Wine About page with a group photograph and community history", caption: "Badass Women In Wine - about page", href: "https://www.badasswomeninwine.org/" },
         { src: bawwSponsorsCloseUp, alt: "Badass Women in Wine Sponsors page displaying supporting organizations", caption: "Badass Women In Wine - sponsors page", href: "https://www.badasswomeninwine.org/" },
         { src: bawwHomepageDark, alt: "Badass Women in Wine homepage in dark mode", caption: "Badass Women In Wine - homepage - dark mode", href: "https://www.badasswomeninwine.org/" },
