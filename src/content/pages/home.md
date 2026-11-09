@@ -8,8 +8,8 @@ sections:
       quotes:
         - quote: >-
             Hiring 3rd Person Creative was the smartest decision I made for my business.
-            Matthew came highly recommended, and he brought an identity and life to my
-            brand that I didn't know it was possible.
+            They came highly recommended, and brought an identity and life to my
+            brand that I didn't know was possible.
           name: "Kendra Gillette"
           role: "Founder"
           organization: "Bird Snapper Beverages"
