@@ -20,4 +20,10 @@ sections:
           name: "Tracy Doren"
           role: "Deputy Director"
           organization: "Downtown Mesa Association"
+        - quote: >-
+            Third Person Creative helped me hone in on what I uniquely bring to my energy medicine practice.
+            Their process kept me focused and helped clarify the essence of my work.
+            I left with a brand that feels aligned with who I am and how I want to show up.
+          name: "Christina Deeb"
+          role: "Founder"
 ---

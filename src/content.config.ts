@@ -116,8 +116,8 @@ const pages = defineCollection({
           quotes: z.array(z.object({
             quote: z.string().min(1),
             name: z.string().min(1),
-            role: z.string().min(1),
-            organization: z.string().min(1),
+            role: z.string().min(1).optional(),
+            organization: z.string().min(1).optional(),
           }).strict()).min(1),
         }).strict()]),
       }).strict(),

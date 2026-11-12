@@ -57,7 +57,7 @@ Brand fonts (Manrope and DM Sans) are self-hosted as WOFF2 in `public/fonts/`, a
 
 ## Homepage testimonials
 
-`src/content/pages/home.md` controls the callout below the homepage hero. Use `layout: quotes` with a `quotes` array; each item has `quote`, `name`, `role`, and `organization`. The carousel inherits the callout's `colorMode`, uses manual side arrows and keyboard navigation, and does not autoplay. About keeps the standard callout layout: omit `layout` (or set `standard`) and provide the usual headline/link fields.
+`src/content/pages/home.md` controls the callout below the homepage hero. Use `layout: quotes` with a `quotes` array; each item requires `quote` and `name`, with optional `role` and `organization`. The carousel inherits the callout's `colorMode`, uses manual side arrows and keyboard navigation, and does not autoplay. About keeps the standard callout layout: omit `layout` (or set `standard`) and provide the usual headline/link fields.
 
 ## Project previews
 
