@@ -61,9 +61,9 @@ export const projects: Project[] = [
     teaser: {
       description: "Great packaging is more than a pretty label. It's where brand strategy, storytelling, and design come together to create something memorable. From bold, playful identities to packaging rooted in a sense of place, we create designs that capture a brand's personality, connect with its audience, and stand out on the shelf.",
       clients: [
-        "Avenelle Wine Company (Jean-Marc Gilet Vouvray)",
-        "Bird Snapper Beverages",
         "Fogarty Winery",
+        "Bird Snapper Beverages",
+        "Avenelle Wine Company (Jean-Marc Gilet Vouvray)",
         "Folklore Napa (Private Label)",
       ],
       images: [
@@ -82,11 +82,11 @@ export const projects: Project[] = [
     teaser: {
       description: "An effective identity is more than a logo. We combine strategy, storytelling, and thoughtful design to create distinctive visual marks that capture a brand's personality, communicate its purpose, and leave a lasting and memorable impression.",
       clients: [
-        "Badass Women in Wine",
         "Bird Snapper Beverages",
+        "Badass Women in Wine",
         "Christina Deeb",
-        "Charlie Cart",
         "Fogarty Winery",
+        "Charlie Cart",
       ],
       images: [
         { src: identityImage1, alt: "Bird Snapper feather symbol and non-alcoholic cocktail logo" },
@@ -105,8 +105,8 @@ export const projects: Project[] = [
     teaser: {
       description: "From milestone celebrations to one-of-a-kind experiences, we bring events to life through distinctive visual identities, creative storytelling, and thoughtfully designed materials that set the tone and make a lasting impression.",
       clients: [
-        "National Ability Center (Private Fundraising Dinner)",
         "Publisher Group West (50th Anniversary)",
+        "National Ability Center (Private Fundraising Dinner)",
       ],
       images: [
         { src: eventImage1, alt: "Publishers Group West 50th anniversary poster and identity" },
