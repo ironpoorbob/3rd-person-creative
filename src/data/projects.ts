@@ -56,18 +56,16 @@ export const projects: Project[] = [
   {
     title: "Packaging That Tells a Story",
     category: "Package Design",
-    image: packagingImage2,
+    image: packagingImage3,
     alt: "Doc Fogarty's can packaging",
     teaser: {
       description: "Great packaging is more than a pretty label. It's where brand strategy, storytelling, and design come together to create something memorable. From bold, playful identities to packaging rooted in a sense of place, we create designs that capture a brand's personality, connect with its audience, and stand out on the shelf.",
       clients: [
-        "Fogarty Winery",
         "Bird Snapper Beverages",
         "Avenelle Wine Company (Jean-Marc Gilet Vouvray)",
         "Folklore Napa (Private Label)",
       ],
       images: [
-        { src: packagingImage2, alt: "Doc Fogarty's Mountain Cherry and Skyline Kiwi beverage cans" },
         { src: packagingImage3, alt: "Bird Snapper margarita, mojito, and dark and stormy non-alcoholic cocktail cans" },
         { src: packagingImage4, alt: "Jean Marc Gilet Vouvray Sec and Brut wine bottles with close-ups of their labels" },
         { src: illustrationImage3, alt: "Cabernet Voltaire wine label and bottle with illustrated figures" },
@@ -85,14 +83,12 @@ export const projects: Project[] = [
         "Bird Snapper Beverages",
         "Badass Women in Wine",
         "Christina Deeb",
-        "Fogarty Winery",
         "Charlie Cart",
       ],
       images: [
         { src: identityImage1, alt: "Bird Snapper feather symbol and non-alcoholic cocktail logo" },
         { src: identityImage2, alt: "Badass Women in Wine logo designs" },
         { src: identityImage3, alt: "Christina Deeb business cards and geometric brand identity" },
-        { src: identityImage4, alt: "Doc Fogarty's non-alcoholic natural spritz logo" },
         { src: identityImage5, alt: "The Charlie Cart Project and podcast food education logos" },
       ],
     }
